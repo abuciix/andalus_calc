@@ -772,13 +772,13 @@
     const out = $("far-result");
     if (isNaN(gfa) || isNaN(plot)) return neutralState(out);
     if (plot === 0) return errorState(out, "Plot area cannot be zero — division by zero.");
-    const far = round2(gfa / plot);
+    const far = gfa / plot;
     const maxLimit = isNaN(max) ? null : max;
     let level = "green", title = "Within permitted FAR envelope";
     if (maxLimit !== null && far > maxLimit) { level = "red"; title = "FAR exceeds the maximum permitted limit"; }
     else if (maxLimit !== null && far > maxLimit * 0.9) { level = "yellow"; title = "FAR is approaching the maximum permitted limit"; }
     renderStatus(out, level, title, [
-      { label: "Floor Area Ratio", value: far.toFixed(2) },
+      { label: "Floor Area Ratio", value: round2(far).toFixed(2) },
       { label: "Max FAR Limit", value: maxLimit !== null ? maxLimit.toFixed(2) : "—", note: maxLimit !== null ? (far > maxLimit ? `Over by ${round2(far - maxLimit).toFixed(2)}` : `Remaining ${round2(maxLimit - far).toFixed(2)}`) : "Set a limit to validate" }
     ]);
   }
@@ -791,13 +791,13 @@
     const out = $("cov-result");
     if (isNaN(fp) || isNaN(plot)) return neutralState(out);
     if (plot === 0) return errorState(out, "Plot area cannot be zero — division by zero.");
-    const cov = round2((fp / plot) * 100);
+    const cov = (fp / plot) * 100;
     const maxLimit = isNaN(max) ? settings.covMax : max;
     let level = "green", title = "Lot coverage within acceptable limits";
     if (cov > maxLimit) { level = "yellow"; title = "Lot coverage exceeds the default maximum limit"; }
     if (cov > maxLimit * 1.15) { level = "red"; title = "Lot coverage significantly exceeds the maximum limit"; }
     renderStatus(out, level, title, [
-      { label: "Lot Coverage", value: cov.toFixed(2) + "%" },
+      { label: "Lot Coverage", value: round2(cov).toFixed(2) + "%" },
       { label: "Max Coverage Limit", value: maxLimit.toFixed(2) + "%", note: cov > maxLimit ? `Over by ${round2(cov - maxLimit).toFixed(2)}%` : `Remaining ${round2(maxLimit - cov).toFixed(2)}%` }
     ]);
   }
@@ -810,13 +810,13 @@
     const out = $("osr-result");
     if (isNaN(open) || isNaN(gfa)) return neutralState(out);
     if (gfa === 0) return errorState(out, "Gross Floor Area cannot be zero — division by zero.");
-    const osr = round2((open / gfa) * 100);
+    const osr = (open / gfa) * 100;
     const minLimit = isNaN(min) ? settings.osrMin : min;
     let level = "green", title = "Open space ratio meets recommended minimum";
     if (osr < minLimit) { level = "red"; title = "Open space ratio falls below the recommended minimum"; }
     else if (osr < minLimit * 1.1) { level = "yellow"; title = "Open space ratio is close to the recommended minimum"; }
     renderStatus(out, level, title, [
-      { label: "Open Space Ratio", value: osr.toFixed(2) + "%" },
+      { label: "Open Space Ratio", value: round2(osr).toFixed(2) + "%" },
       { label: "Min Recommended OSR", value: minLimit.toFixed(2) + "%", note: osr < minLimit ? `Short by ${round2(minLimit - osr).toFixed(2)}%` : `Above minimum by ${round2(osr - minLimit).toFixed(2)}%` }
     ]);
   }
@@ -828,7 +828,7 @@
     const out = $("ramp-result");
     if (isNaN(rise) || isNaN(slope)) return neutralState(out);
     if (slope <= 0) return errorState(out, "Slope ratio must be greater than zero.");
-    const run = round2(rise * slope);
+    const run = rise * slope;
     const pct = round2((1 / slope) * 100);
     const maxRatio = settings.rampMaxRatio; // e.g., 12 -> 1:12
     const unitLabel = settings.unit === "imperial" ? "in" : "cm";
@@ -845,7 +845,7 @@
     }
 
     const lines = [
-      { label: "Required Horizontal Run", value: run.toFixed(2) + " " + runDisplayUnit },
+      { label: "Required Horizontal Run", value: round2(run).toFixed(2) + " " + runDisplayUnit },
       { label: "Design Slope", value: "1:" + round2(slope).toFixed(2) + " (" + pct.toFixed(2) + "%)" },
       { label: "Max Allowed Baseline", value: "1:" + round2(maxRatio).toFixed(2) }
     ];
@@ -868,7 +868,7 @@
     const out = $("stair-result");
     if (isNaN(R) || isNaN(T)) return neutralState(out);
 
-    const blondel = round2(2 * R + T);
+    const blondel = 2 * R + T;
     const unitLabel = settings.unit === "imperial" ? "in" : "cm";
     const minR = settings.blondelMinIn, maxR = settings.blondelMaxIn;
     const riserMax = settings.riserMaxIn, treadMin = settings.treadMinIn;
@@ -890,7 +890,7 @@
     }
 
     renderStatus(out, level, title, [
-      { label: "Blondel Value (2R + T)", value: blondel.toFixed(2) + " " + unitLabel, note: `Ideal range ${minR.toFixed(2)}–${maxR.toFixed(2)} ${unitLabel}` },
+      { label: "Blondel Value (2R + T)", value: round2(blondel).toFixed(2) + " " + unitLabel, note: `Ideal range ${minR.toFixed(2)}–${maxR.toFixed(2)} ${unitLabel}` },
       { label: "Riser Height", value: R.toFixed(2) + " " + unitLabel, note: riserFail ? `Exceeds max of ${riserMax.toFixed(2)} ${unitLabel}` : `Within max of ${riserMax.toFixed(2)} ${unitLabel}` },
       { label: "Tread Depth", value: T.toFixed(2) + " " + unitLabel, note: treadFail ? `Below min of ${treadMin.toFixed(2)} ${unitLabel}` : `Meets min of ${treadMin.toFixed(2)} ${unitLabel}` },
       { label: "Blondel Pass/Fail", value: blondelPass ? "PASS" : "FAIL" }
@@ -950,7 +950,7 @@
     const out = $("wwr-result");
     if (isNaN(win) || isNaN(wall)) return neutralState(out);
     if (wall === 0) return errorState(out, "Exterior wall area cannot be zero — division by zero.");
-    const wwr = round2((win / wall) * 100);
+    const wwr = (win / wall) * 100;
     const minT = isNaN(min) ? settings.wwrMin : min;
     const maxT = isNaN(max) ? settings.wwrMax : max;
 
@@ -960,7 +960,7 @@
     else { level = "green"; title = "WWR is within the recommended energy-efficiency target range"; }
 
     renderStatus(out, level, title, [
-      { label: "Window-to-Wall Ratio", value: wwr.toFixed(2) + "%" },
+      { label: "Window-to-Wall Ratio", value: round2(wwr).toFixed(2) + "%" },
       { label: "Target Range", value: minT.toFixed(2) + "% – " + maxT.toFixed(2) + "%" }
     ]);
   }
@@ -977,21 +977,20 @@
     if (!anyInput) return neutralState(out);
     if (totalR === 0) return errorState(out, "Total R-Value cannot be zero — division by zero.");
 
-    const u = totalR === 0 ? NaN : 1 / totalR;
-    const uRounded = round2(u);
+    const u = 1 / totalR;
     const type = $("uvalue-target-type").value;
     const targetRoof = parseFloat($("uv-target-roof").value) || settings.uvRoofTarget;
     const targetWall = parseFloat($("uv-target-wall").value) || settings.uvWallTarget;
     const target = type === "roof" ? targetRoof : targetWall;
 
     let level, title;
-    if (uRounded <= target) { level = "green"; title = "Assembly outperforms the target U-Value requirement"; }
-    else if (uRounded <= target * 1.15) { level = "yellow"; title = "Assembly is close to, but exceeds, the target U-Value"; }
+    if (u <= target) { level = "green"; title = "Assembly outperforms the target U-Value requirement"; }
+    else if (u <= target * 1.15) { level = "yellow"; title = "Assembly is close to, but exceeds, the target U-Value"; }
     else { level = "red"; title = "Assembly exceeds the code maximum U-Value limit"; }
 
     renderStatus(out, level, title, [
       { label: "Total R-Value", value: round2(totalR).toFixed(2) },
-      { label: "Composite U-Value", value: uRounded.toFixed(2), note: `1 ÷ ${round2(totalR).toFixed(2)}` },
+      { label: "Composite U-Value", value: round2(u).toFixed(2), note: `1 ÷ ${round2(totalR).toFixed(2)}` },
       { label: "Target Max U-Value (" + (type === "roof" ? "Roof" : "Wall") + ")", value: target.toFixed(2) }
     ]);
   }
