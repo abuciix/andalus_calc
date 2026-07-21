@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ArchCalc: The Architect's Daily Computational Suite</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: {
+          panel: '#151922',
+          panel2: '#1b202b',
+          base: '#0c0f15',
+          accent: '#3ecf8e',
+          accent2: '#38bdf8',
+        },
+        fontFamily: {
+          sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        }
+      }
+    }
+  }
+</script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: #0c0f15; }
+  ::-webkit-scrollbar-thumb { background: #2a3140; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #3a4356; }
+
+  .nav-link { transition: all .15s ease; }
+  .nav-link.active { background: linear-gradient(90deg, rgba(62,207,142,0.15), rgba(62,207,142,0.02)); border-left-color: #3ecf8e; color: #f0fdf4; }
+  .nav-link:not(.active):hover { background: rgba(255,255,255,0.03); }
+
+  .view { display: none; }
+  .view.active { display: block; animation: fadeIn .25s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px);} to { opacity: 1; transform: translateY(0);} }
+
+  .card { background: #151922; border: 1px solid #232a38; }
+  input[type=number], input[type=text], select {
+    background: #0c0f15; border: 1px solid #2a3140; color: #e6e9ef;
+  }
+  input[type=number]:focus, input[type=text]:focus, select:focus {
+    outline: none; border-color: #3ecf8e; box-shadow: 0 0 0 3px rgba(62,207,142,0.15);
+  }
+  input[type=number]::-webkit-inner-spin-button { opacity: 1; }
+
+  .status-badge { transition: all .2s ease; }
+
+  .toggle-track { transition: background .2s ease; }
+  .toggle-dot { transition: transform .2s ease; }
+
+  .glow-green { box-shadow: 0 0 24px -6px rgba(62,207,142,0.45); }
+  .glow-yellow { box-shadow: 0 0 24px -6px rgba(234,179,8,0.45); }
+  .glow-red { box-shadow: 0 0 24px -6px rgba(239,68,68,0.45); }
+
+  #sidebar { scrollbar-width: thin; }
+  .drawer-open #settingsDrawer { transform: translateX(0); }
+</style>
+</head>
+<body class="bg-base text-slate-200 min-h-screen">
+
+<div class="flex min-h-screen">
+
+  <!-- Mobile top bar -->
+  <div class="md:hidden fixed top-0 left-0 right-0 h-14 bg-panel border-b border-white/10 z-30 flex items-center justify-between px-4">
+    <button id="mobileMenuBtn" class="p-2 -ml-2 text-slate-300">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>
+    </button>
+    <div class="flex items-center gap-2 font-bold text-slate-100">
+      <span class="h-2.5 w-2.5 rounded-sm bg-accent"></span> ArchCalc
+    </div>
+    <button id="mobileSettingsBtn" class="p-2 -mr-2 text-slate-300">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+    </button>
+  </div>
+
+  <!-- Sidebar -->
+  <aside id="sidebar" class="fixed md:sticky top-0 md:top-0 h-screen w-72 shrink-0 bg-panel border-r border-white/10 z-40 -translate-x-full md:translate-x-0 transition-transform duration-200 overflow-y-auto">
+    <div class="p-5 border-b border-white/10 hidden md:block">
+      <div class="flex items-center gap-2.5">
+        <span class="h-3 w-3 rounded-sm bg-accent shadow-[0_0_12px_rgba(62,207,142,0.7)]"></span>
+        <h1 class="text-lg font-bold text-slate-50 tracking-tight">ArchCalc</h1>
+      </div>
+      <p class="text-xs text-slate-500 mt-1 leading-snug">The Architect's Daily Computational Suite</p>
+    </div>
+    <div class="md:hidden flex items-center justify-between p-4 border-b border-white/10">
+      <div class="flex items-center gap-2">
+        <span class="h-3 w-3 rounded-sm bg-accent"></span>
+        <h1 class="text-base font-bold text-slate-50">ArchCalc</h1>
+      </div>
+      <button id="closeSidebarBtn" class="p-1 text-slate-400"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button>
+    </div>
+
+    <nav class="p-3 space-y-6">
+      <div>
+        <p class="px-3 text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Zoning &amp; Site</p>
+        <div class="space-y-1">
+          <button data-view="far" class="nav-link active w-full text-left px-3 py-2.5 rounded-r-md border-l-2 border-transparent text-sm font-medium text-slate-300 flex items-center gap-2.5">
+            <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h7v7H3V3zm11 0h7v7h-7V3zM3 14h7v7H3v-7zm11 0h7v7h-7v-7z"/></svg>
+            Floor Area Ratio
+          </button>
+          <button data-view="coverage" class="nav-link w-full text-left px-3 py-2.5 rounded-r-md border-l-2 border-transparent text-sm font-medium text-slate-300 flex items-center gap-2.5">
+            <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg>
+            Lot Coverage
+          </button>
+          <button data-view="osr" class="nav-link w-full text-left px-3 py-2.5 rounded-r-md border-l-2 border-transparent text-sm font-medium text-slate-300 flex items-center gap-2.5">
+            <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18M3 12h18" stroke-dasharray="2 3"/><circle cx="12" cy="12" r="9"/></svg>
+            Open Space Ratio
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <p class="px-3 text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Circulation &amp; Access</p>
+        <div class="space-y-1">
+          <button data-view="ramp" class="nav-link w-full text-left px-3 py-2.5 rounded-r-md border-l-2 border-transparent text-sm font-medium text-slate-300 flex items-center gap-2.5">
+            <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 21h5l13-13-5-5-13 13v5z"/></svg>
+            ADA Ramp
+          </button>
+          <button data-view="stairs" class="nav-link w-full text-left px-3 py-2.5 rounded-r-md border-l-2 border-transparent text-sm font-medium text-slate-300 flex items-center gap-2.5">
+            <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 21v-4h4v-4h4v-4h4v-4h4v16H3z"/></svg>
+            Stair Comfort
+          </button>
+          <button data-view="occupant" class="nav-link w-full text-left px-3 py-2.5 rounded-r-md border-l-2 border-transparent text-sm font-medium text-slate-300 flex items-center gap-2.5">
+            <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m5-3.13a4 4 0 100-8 4 4 0 000 8zm6 3a4 4 0 10-8 0"/></svg>
+            Occupant Load
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <p class="px-3 text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Thermal &amp; Envelope</p>
+        <div class="space-y-1">
+          <button data-view="wwr" class="nav-link w-full text-left px-3 py-2.5 rounded-r-md border-l-2 border-transparent text-sm font-medium text-slate-300 flex items-center gap-2.5">
+            <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 21V9"/></svg>
+            Window-to-Wall
+          </button>
+          <button data-view="uvalue" class="nav-link w-full text-left px-3 py-2.5 rounded-r-md border-l-2 border-transparent text-sm font-medium text-slate-300 flex items-center gap-2.5">
+            <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            U-Value / R-Value
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <div class="p-3 mt-2 md:hidden">
+      <button id="mobileSettingsBtn2" class="w-full flex items-center justify-center gap-2 text-sm font-medium bg-panel2 border border-white/10 rounded-md py-2.5 text-slate-300">
+        Code Settings &amp; Presets
+      </button>
+    </div>
+
+    <div class="p-4 mt-2 text-[11px] text-slate-600 leading-relaxed hidden md:block">
+      All values save automatically to this device. Adjust global code thresholds via <span class="text-slate-400">Code Settings</span> in the top bar.
+    </div>
+  </aside>
+
+  <div id="sidebarOverlay" class="fixed inset-0 bg-black/60 z-30 hidden md:hidden"></div>
+
+  <!-- Main -->
+  <main class="flex-1 min-w-0 pt-14 md:pt-0">
+    <!-- Top bar (desktop) -->
+    <header class="hidden md:flex items-center justify-between gap-4 px-8 py-5 border-b border-white/10 bg-base/80 backdrop-blur sticky top-0 z-20">
+      <div>
+        <h2 id="pageTitle" class="text-xl font-bold text-slate-50">Floor Area Ratio</h2>
+        <p id="pageSubtitle" class="text-sm text-slate-500 mt-0.5">Zoning compliance for gross floor area against plot area.</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 bg-panel2 border border-white/10 rounded-full px-1 py-1">
+          <button data-unit="imperial" class="unit-btn text-xs font-semibold px-3 py-1.5 rounded-full transition">Imperial</button>
+          <button data-unit="metric" class="unit-btn text-xs font-semibold px-3 py-1.5 rounded-full transition">Metric</button>
+        </div>
+        <button id="settingsBtn" class="flex items-center gap-2 text-sm font-semibold bg-panel2 hover:bg-panel border border-white/10 rounded-md px-4 py-2.5 text-slate-200 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+          Code Settings
+        </button>
+      </div>
+    </header>
+
+    <!-- Mobile unit toggle row -->
+    <div class="md:hidden flex items-center justify-between px-4 py-3 border-b border-white/10">
+      <div>
+        <h2 id="pageTitleMobile" class="text-base font-bold text-slate-50">Floor Area Ratio</h2>
+      </div>
+      <div class="flex items-center gap-2 bg-panel2 border border-white/10 rounded-full px-1 py-1">
+        <button data-unit="imperial" class="unit-btn text-xs font-semibold px-2.5 py-1 rounded-full transition">Imp</button>
+        <button data-unit="metric" class="unit-btn text-xs font-semibold px-2.5 py-1 rounded-full transition">Met</button>
+      </div>
+    </div>
+
+    <div class="p-4 md:p-8 max-w-5xl">
+
+      <!-- FAR -->
+      <section id="view-far" class="view active">
+        <div class="card rounded-xl p-5 md:p-7">
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Total Gross Floor Area (<span class="unit-area">sq ft</span>)</label>
+              <input type="number" id="far-gfa" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. 12000">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Total Plot Area (<span class="unit-area">sq ft</span>)</label>
+              <input type="number" id="far-plot" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. 10000">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Max FAR Limit (local code)</label>
+              <input type="number" id="far-max" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="0.05">
+            </div>
+          </div>
+        </div>
+
+        <div id="far-result" class="mt-5"></div>
+
+        <div class="card rounded-xl p-5 md:p-7 mt-5">
+          <h3 class="text-sm font-bold text-slate-300 mb-2">Formula Reference</h3>
+          <p class="mono text-xs text-slate-500">FAR = Total Gross Floor Area ÷ Total Plot Area</p>
+        </div>
+      </section>
+
+      <!-- Lot Coverage -->
+      <section id="view-coverage" class="view">
+        <div class="card rounded-xl p-5 md:p-7">
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Building Footprint Area (<span class="unit-area">sq ft</span>)</label>
+              <input type="number" id="cov-footprint" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. 4500">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Total Plot Area (<span class="unit-area">sq ft</span>)</label>
+              <input type="number" id="cov-plot" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. 10000">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Max Coverage Limit (%)</label>
+              <input type="number" id="cov-max" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="1">
+            </div>
+          </div>
+        </div>
+
+        <div id="cov-result" class="mt-5"></div>
+
+        <div class="card rounded-xl p-5 md:p-7 mt-5">
+          <h3 class="text-sm font-bold text-slate-300 mb-2">Formula Reference</h3>
+          <p class="mono text-xs text-slate-500">Lot Coverage (%) = (Building Footprint Area ÷ Total Plot Area) × 100</p>
+        </div>
+      </section>
+
+      <!-- OSR -->
+      <section id="view-osr" class="view">
+        <div class="card rounded-xl p-5 md:p-7">
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Total Open Space Area (<span class="unit-area">sq ft</span>)</label>
+              <input type="number" id="osr-open" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. 3000">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Total Gross Floor Area (<span class="unit-area">sq ft</span>)</label>
+              <input type="number" id="osr-gfa" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. 12000">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Min Recommended OSR (%)</label>
+              <input type="number" id="osr-min" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="1">
+            </div>
+          </div>
+        </div>
+
+        <div id="osr-result" class="mt-5"></div>
+
+        <div class="card rounded-xl p-5 md:p-7 mt-5">
+          <h3 class="text-sm font-bold text-slate-300 mb-2">Formula Reference</h3>
+          <p class="mono text-xs text-slate-500">OSR (%) = (Total Open Space Area ÷ Total Gross Floor Area) × 100</p>
+        </div>
+      </section>
+
+      <!-- ADA Ramp -->
+      <section id="view-ramp" class="view">
+        <div class="card rounded-xl p-5 md:p-7">
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Target Rise (<span class="unit-len">in</span>)</label>
+              <input type="number" id="ramp-rise" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. 24">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Design Slope Ratio (1 : x)</label>
+              <input type="number" id="ramp-slope" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. 12" step="0.5">
+            </div>
+          </div>
+          <p class="text-xs text-slate-500 mt-3">Max allowed baseline ratio is set to <span id="ramp-max-label" class="text-slate-300 font-semibold mono">1:12</span> in Code Settings. Shallower (larger x) is safer.</p>
+        </div>
+
+        <div id="ramp-result" class="mt-5"></div>
+
+        <div class="card rounded-xl p-5 md:p-7 mt-5">
+          <h3 class="text-sm font-bold text-slate-300 mb-2">Formula Reference</h3>
+          <p class="mono text-xs text-slate-500">Run = Rise × Slope Ratio (x) &nbsp;|&nbsp; Max slope 1:12 (8.33%) &nbsp;|&nbsp; Landing required beyond 30 ft run</p>
+        </div>
+      </section>
+
+      <!-- Stairs -->
+      <section id="view-stairs" class="view">
+        <div class="card rounded-xl p-5 md:p-7">
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Riser Height R (<span class="unit-len">in</span>)</label>
+              <input type="number" id="stair-riser" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. 7">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Tread Depth T (<span class="unit-len">in</span>)</label>
+              <input type="number" id="stair-tread" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. 11">
+            </div>
+          </div>
+        </div>
+
+        <div id="stair-result" class="mt-5"></div>
+
+        <div class="card rounded-xl p-5 md:p-7 mt-5">
+          <h3 class="text-sm font-bold text-slate-300 mb-2">Formula Reference — Blondel's Rule</h3>
+          <p class="mono text-xs text-slate-500">2R + T = ideal range 24–25 in (62–65 cm) &nbsp;|&nbsp; Max riser 7 in (18 cm) &nbsp;|&nbsp; Min tread 11 in (28 cm)</p>
+        </div>
+      </section>
+
+      <!-- Occupant Load -->
+      <section id="view-occupant" class="view">
+        <div class="card rounded-xl p-5 md:p-7">
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Floor Area (<span class="unit-area">sq ft</span>)</label>
+              <input type="number" id="occ-area" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. 5000">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Occupancy Type / Load Factor</label>
+              <select id="occ-factor" class="w-full rounded-md px-3.5 py-2.5 text-sm">
+                <option value="7">Assembly, Concentrated (7 sq ft/person)</option>
+                <option value="15" selected>Assembly, Standing/Unconcentrated (15 sq ft/person)</option>
+                <option value="15t">Assembly, Tables/Chairs (15 sq ft/person)</option>
+                <option value="20">Business / Mercantile (60 sq ft/person)</option>
+                <option value="50">Business - Office (100 sq ft/person)</option>
+                <option value="30">Educational - Classroom (20 sq ft/person)</option>
+                <option value="200">Storage / Warehouse (300 sq ft/person)</option>
+                <option value="custom">Custom (enter below)</option>
+              </select>
+            </div>
+            <div id="occ-custom-wrap" class="hidden">
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Custom Load Factor (<span class="unit-area">sq ft</span>/person)</label>
+              <input type="number" id="occ-custom" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. 50">
+            </div>
+          </div>
+        </div>
+
+        <div id="occ-result" class="mt-5"></div>
+
+        <div class="card rounded-xl p-5 md:p-7 mt-5">
+          <h3 class="text-sm font-bold text-slate-300 mb-2">Formula Reference</h3>
+          <p class="mono text-xs text-slate-500">Occupant Load = Area ÷ Load Factor &nbsp;|&nbsp; Stair Egress = Occupants × 0.2 in/person &nbsp;|&nbsp; Level Egress = Occupants × 0.15 in/person</p>
+        </div>
+      </section>
+
+      <!-- WWR -->
+      <section id="view-wwr" class="view">
+        <div class="card rounded-xl p-5 md:p-7">
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Total Window Area (<span class="unit-area">sq ft</span>)</label>
+              <input type="number" id="wwr-window" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. 800">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Total Exterior Wall Area (<span class="unit-area">sq ft</span>)</label>
+              <input type="number" id="wwr-wall" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. 3000">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Target Min (%)</label>
+              <input type="number" id="wwr-min" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="1">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Max Threshold (%)</label>
+              <input type="number" id="wwr-max" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="1">
+            </div>
+          </div>
+        </div>
+
+        <div id="wwr-result" class="mt-5"></div>
+
+        <div class="card rounded-xl p-5 md:p-7 mt-5">
+          <h3 class="text-sm font-bold text-slate-300 mb-2">Formula Reference</h3>
+          <p class="mono text-xs text-slate-500">WWR (%) = (Total Window Area ÷ Total Exterior Wall Area) × 100</p>
+        </div>
+      </section>
+
+      <!-- U-Value -->
+      <section id="view-uvalue" class="view">
+        <div class="card rounded-xl p-5 md:p-7">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-sm font-bold text-slate-300">Insulation Layers</h3>
+            <select id="uvalue-target-type" class="rounded-md px-3 py-1.5 text-xs">
+              <option value="roof">Assembly: Roof (Max U-0.05)</option>
+              <option value="wall">Assembly: Wall (Max U-0.08)</option>
+            </select>
+          </div>
+          <div class="grid sm:grid-cols-2 gap-4" id="uvalue-layers">
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Layer 1 R-Value</label>
+              <input type="number" id="uv-r1" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. 13">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Layer 2 R-Value</label>
+              <input type="number" id="uv-r2" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. 5">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Layer 3 R-Value</label>
+              <input type="number" id="uv-r3" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="optional">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Layer 4 R-Value</label>
+              <input type="number" id="uv-r4" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="optional">
+            </div>
+          </div>
+          <div class="grid sm:grid-cols-2 gap-4 mt-4 pt-4 border-t border-white/10">
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Target Max U-Value (Roof)</label>
+              <input type="number" id="uv-target-roof" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="0.01">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Target Max U-Value (Wall)</label>
+              <input type="number" id="uv-target-wall" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="0.01">
+            </div>
+          </div>
+        </div>
+
+        <div id="uvalue-result" class="mt-5"></div>
+
+        <div class="card rounded-xl p-5 md:p-7 mt-5">
+          <h3 class="text-sm font-bold text-slate-300 mb-2">Formula Reference</h3>
+          <p class="mono text-xs text-slate-500">U = 1 ÷ (R1 + R2 + R3 + R4) &nbsp;|&nbsp; Lower U-Value = better insulation performance</p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<!-- Settings Drawer -->
+<div id="settingsOverlay" class="fixed inset-0 bg-black/60 z-40 hidden"></div>
+<aside id="settingsDrawer" class="fixed top-0 right-0 h-screen w-full sm:w-[420px] bg-panel border-l border-white/10 z-50 translate-x-full transition-transform duration-250 overflow-y-auto">
+  <div class="flex items-center justify-between px-6 py-5 border-b border-white/10 sticky top-0 bg-panel z-10">
+    <div>
+      <h3 class="text-base font-bold text-slate-50">Code Settings &amp; Presets</h3>
+      <p class="text-xs text-slate-500 mt-0.5">Customize thresholds for your local municipal code.</p>
+    </div>
+    <button id="closeSettingsBtn" class="p-1.5 text-slate-400 hover:text-slate-200">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+    </button>
+  </div>
+
+  <div class="p-6 space-y-7">
+    <div>
+      <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Global Unit System</label>
+      <div class="flex items-center gap-2 bg-panel2 border border-white/10 rounded-lg p-1">
+        <button data-unit="imperial" class="unit-btn flex-1 text-sm font-semibold py-2 rounded-md transition">Imperial (ft, in)</button>
+        <button data-unit="metric" class="unit-btn flex-1 text-sm font-semibold py-2 rounded-md transition">Metric (m, cm)</button>
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Zoning &amp; Site Thresholds</p>
+      <div>
+        <label class="block text-xs text-slate-400 mb-1.5">Default Max FAR Limit</label>
+        <input type="number" id="set-far-max" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="0.05">
+      </div>
+      <div>
+        <label class="block text-xs text-slate-400 mb-1.5">Default Max Lot Coverage (%)</label>
+        <input type="number" id="set-cov-max" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="1">
+      </div>
+      <div>
+        <label class="block text-xs text-slate-400 mb-1.5">Default Min Open Space Ratio (%)</label>
+        <input type="number" id="set-osr-min" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="1">
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Circulation &amp; Accessibility</p>
+      <div>
+        <label class="block text-xs text-slate-400 mb-1.5">Max Ramp Slope Baseline (1 : x)</label>
+        <input type="number" id="set-ramp-max" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="0.5">
+      </div>
+      <div>
+        <label class="block text-xs text-slate-400 mb-1.5">Max Continuous Ramp Run before Landing (<span class="unit-len">ft</span>)</label>
+        <input type="number" id="set-ramp-landing" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="1">
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">Blondel Min (<span class="unit-len">in</span>)</label>
+          <input type="number" id="set-blondel-min" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="0.1">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">Blondel Max (<span class="unit-len">in</span>)</label>
+          <input type="number" id="set-blondel-max" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="0.1">
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">Max Riser (<span class="unit-len">in</span>)</label>
+          <input type="number" id="set-riser-max" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="0.1">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">Min Tread (<span class="unit-len">in</span>)</label>
+          <input type="number" id="set-tread-min" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="0.1">
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">Stair Exit Width (in/person)</label>
+          <input type="number" id="set-exit-stair" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="0.01">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">Level Exit Width (in/person)</label>
+          <input type="number" id="set-exit-level" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="0.01">
+        </div>
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Thermal &amp; Envelope</p>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">WWR Target Min (%)</label>
+          <input type="number" id="set-wwr-min" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="1">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">WWR Max Threshold (%)</label>
+          <input type="number" id="set-wwr-max" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="1">
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">Max U-Value (Roof)</label>
+          <input type="number" id="set-uv-roof" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="0.01">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">Max U-Value (Wall)</label>
+          <input type="number" id="set-uv-wall" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="0.01">
+        </div>
+      </div>
+    </div>
+
+    <div class="pt-2 space-y-2">
+      <button id="resetSettingsBtn" class="w-full text-sm font-semibold bg-panel2 hover:bg-red-500/10 hover:text-red-400 border border-white/10 hover:border-red-500/30 rounded-md py-2.5 text-slate-300 transition">Reset to Default Codes</button>
+      <p class="text-[11px] text-slate-600 text-center">Changes save automatically and apply instantly across all calculators.</p>
+    </div>
+  </div>
+</aside>
+
+<script>
+(function () {
+  "use strict";
+
+  /* =========================================================
+     1. DEFAULT CODE VALUES & STATE MANAGEMENT
+     ========================================================= */
+  const DEFAULTS = {
+    unit: "imperial", // 'imperial' | 'metric'
+    farMax: 2.0,
+    covMax: 60,
+    osrMin: 20,
+    rampMaxRatio: 12,      // 1 : x  (imperial baseline, x is unitless so applies both systems)
+    rampLandingFt: 30,     // feet; converted to meters for metric display
+    blondelMinIn: 24,
+    blondelMaxIn: 25,
+    riserMaxIn: 7,
+    treadMinIn: 11,
+    exitStairFactor: 0.2,  // in/person
+    exitLevelFactor: 0.15, // in/person
+    wwrMin: 20,
+    wwrMax: 40,
+    uvRoofTarget: 0.05,
+    uvWallTarget: 0.08
+  };
+
+  const STORAGE_KEY = "archcalc_settings_v1";
+
+  function loadSettings() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return { ...DEFAULTS };
+      const parsed = JSON.parse(raw);
+      return { ...DEFAULTS, ...parsed };
+    } catch (e) {
+      return { ...DEFAULTS };
+    }
+  }
+
+  let settings = loadSettings();
+
+  function saveSettings() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+  }
+
+  /* =========================================================
+     2. UNIT CONVERSION HELPERS
+     ========================================================= */
+  const CONV = {
+    ftToM: v => v * 0.3048,
+    mToFt: v => v / 0.3048,
+    inToCm: v => v * 2.54,
+    cmToIn: v => v / 2.54,
+    sqftToSqm: v => v * 0.092903,
+    sqmToSqft: v => v / 0.092903
+  };
+
+  function round2(n) {
+    if (!isFinite(n)) return NaN;
+    return Math.round(n * 100) / 100;
+  }
+
+  /* =========================================================
+     3. NAVIGATION
+     ========================================================= */
+  const views = document.querySelectorAll(".view");
+  const navLinks = document.querySelectorAll(".nav-link");
+  const pageTitle = document.getElementById("pageTitle");
+  const pageTitleMobile = document.getElementById("pageTitleMobile");
+  const pageSubtitle = document.getElementById("pageSubtitle");
+
+  const VIEW_META = {
+    far: { title: "Floor Area Ratio", sub: "Zoning compliance for gross floor area against plot area." },
+    coverage: { title: "Lot Coverage", sub: "Building footprint compliance against total plot area." },
+    osr: { title: "Open Space Ratio", sub: "Minimum required open space relative to gross floor area." },
+    ramp: { title: "ADA Ramp Calculator", sub: "Slope ratio compliance and required horizontal run." },
+    stairs: { title: "Stair Comfort Engine", sub: "Blondel's Rule ergonomic safety envelope for stairs." },
+    occupant: { title: "Occupant Load Validator", sub: "Maximum occupancy and required means-of-egress width." },
+    wwr: { title: "Window-to-Wall Ratio", sub: "Energy-efficiency envelope glazing ratio." },
+    uvalue: { title: "U-Value / R-Value Converter", sub: "Aggregate thermal transmittance of stacked assemblies." }
+  };
+
+  function setActiveView(id) {
+    views.forEach(v => v.classList.toggle("active", v.id === "view-" + id));
+    navLinks.forEach(l => l.classList.toggle("active", l.dataset.view === id));
+    const meta = VIEW_META[id];
+    if (meta) {
+      pageTitle.textContent = meta.title;
+      pageTitleMobile.textContent = meta.title;
+      pageSubtitle.textContent = meta.sub;
+    }
+    closeSidebar();
+    window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
+  }
+
+  navLinks.forEach(link => {
+    link.addEventListener("click", () => setActiveView(link.dataset.view));
+  });
+
+  /* Mobile sidebar */
+  const sidebar = document.getElementById("sidebar");
+  const sidebarOverlay = document.getElementById("sidebarOverlay");
+  function openSidebar() {
+    sidebar.classList.remove("-translate-x-full");
+    sidebarOverlay.classList.remove("hidden");
+  }
+  function closeSidebar() {
+    sidebar.classList.add("-translate-x-full");
+    sidebarOverlay.classList.add("hidden");
+  }
+  document.getElementById("mobileMenuBtn").addEventListener("click", openSidebar);
+  document.getElementById("closeSidebarBtn").addEventListener("click", closeSidebar);
+  sidebarOverlay.addEventListener("click", closeSidebar);
+
+  /* =========================================================
+     4. SETTINGS DRAWER
+     ========================================================= */
+  const settingsDrawer = document.getElementById("settingsDrawer");
+  const settingsOverlay = document.getElementById("settingsOverlay");
+  function openSettings() {
+    settingsDrawer.classList.remove("translate-x-full");
+    settingsOverlay.classList.remove("hidden");
+  }
+  function closeSettings() {
+    settingsDrawer.classList.add("translate-x-full");
+    settingsOverlay.classList.add("hidden");
+  }
+  document.getElementById("settingsBtn").addEventListener("click", openSettings);
+  document.getElementById("mobileSettingsBtn").addEventListener("click", openSettings);
+  document.getElementById("mobileSettingsBtn2").addEventListener("click", openSettings);
+  document.getElementById("closeSettingsBtn").addEventListener("click", closeSettings);
+  settingsOverlay.addEventListener("click", closeSettings);
+
+  /* =========================================================
+     5. UNIT TOGGLE (global)
+     ========================================================= */
+  const unitBtns = document.querySelectorAll(".unit-btn");
+  function refreshUnitButtons() {
+    unitBtns.forEach(btn => {
+      const active = btn.dataset.unit === settings.unit;
+      btn.classList.toggle("bg-accent", active);
+      btn.classList.toggle("text-black", active);
+      btn.classList.toggle("text-slate-400", !active);
+    });
+    document.querySelectorAll(".unit-len").forEach(el => { el.textContent = settings.unit === "imperial" ? "in" : "cm"; });
+    document.querySelectorAll(".unit-area").forEach(el => { el.textContent = settings.unit === "imperial" ? "sq ft" : "sq m"; });
+    document.getElementById("ramp-max-label").textContent = "1:" + round2(settings.rampMaxRatio);
+  }
+
+  unitBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      if (btn.dataset.unit === settings.unit) return;
+      settings.unit = btn.dataset.unit;
+      saveSettings();
+      refreshUnitButtons();
+      populateSettingsForm();
+      recalcAll();
+    });
+  });
+
+  /* =========================================================
+     6. STATUS BADGE RENDERER
+     ========================================================= */
+  // level: 'green' | 'yellow' | 'red' | 'neutral'
+  function renderStatus(container, level, title, lines) {
+    const palette = {
+      green: { bg: "bg-emerald-500/10", border: "border-emerald-500/30", text: "text-emerald-400", dot: "bg-emerald-400", glow: "glow-green", label: "COMPLIANT" },
+      yellow: { bg: "bg-amber-500/10", border: "border-amber-500/30", text: "text-amber-400", dot: "bg-amber-400", glow: "glow-yellow", label: "WARNING" },
+      red: { bg: "bg-red-500/10", border: "border-red-500/30", text: "text-red-400", dot: "bg-red-400", glow: "glow-red", label: "NON-COMPLIANT" },
+      neutral: { bg: "bg-slate-500/10", border: "border-slate-500/20", text: "text-slate-400", dot: "bg-slate-500", glow: "", label: "AWAITING INPUT" }
+    };
+    const p = palette[level] || palette.neutral;
+    container.innerHTML = `
+      <div class="status-badge card ${p.glow} rounded-xl p-5 md:p-7 border ${p.border}">
+        <div class="flex items-center gap-2 mb-4">
+          <span class="h-2 w-2 rounded-full ${p.dot} ${level !== 'neutral' ? 'animate-pulse' : ''}"></span>
+          <span class="text-[11px] font-bold uppercase tracking-widest ${p.text}">${p.label}</span>
+        </div>
+        <h4 class="text-lg font-bold text-slate-50 mb-4">${title}</h4>
+        <div class="grid sm:grid-cols-2 gap-3">
+          ${lines.map(l => `
+            <div class="${p.bg} border ${p.border} rounded-lg px-4 py-3">
+              <p class="text-[11px] font-medium text-slate-500 mb-0.5">${l.label}</p>
+              <p class="text-xl font-extrabold mono ${p.text}">${l.value}</p>
+              ${l.note ? `<p class="text-[11px] text-slate-500 mt-1">${l.note}</p>` : ""}
+            </div>
+          `).join("")}
+        </div>
+      </div>`;
+  }
+
+  function errorState(container, message) {
+    container.innerHTML = `
+      <div class="card rounded-xl p-5 md:p-7 border border-red-500/30 bg-red-500/5">
+        <div class="flex items-center gap-2">
+          <svg class="h-5 w-5 text-red-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" /></svg>
+          <p class="text-sm font-semibold text-red-400">${message}</p>
+        </div>
+      </div>`;
+  }
+
+  function neutralState(container, message) {
+    renderStatus(container, "neutral", message || "Enter values to calculate", []);
+  }
+
+  /* =========================================================
+     7. CALCULATORS
+     ========================================================= */
+  const $ = id => document.getElementById(id);
+
+  // ---- FAR ----
+  function calcFAR() {
+    const gfa = parseFloat($("far-gfa").value);
+    const plot = parseFloat($("far-plot").value);
+    const max = parseFloat($("far-max").value);
+    const out = $("far-result");
+    if (isNaN(gfa) || isNaN(plot)) return neutralState(out);
+    if (plot === 0) return errorState(out, "Plot area cannot be zero — division by zero.");
+    const far = round2(gfa / plot);
+    const maxLimit = isNaN(max) ? null : max;
+    let level = "green", title = "Within permitted FAR envelope";
+    if (maxLimit !== null && far > maxLimit) { level = "red"; title = "FAR exceeds the maximum permitted limit"; }
+    else if (maxLimit !== null && far > maxLimit * 0.9) { level = "yellow"; title = "FAR is approaching the maximum permitted limit"; }
+    renderStatus(out, level, title, [
+      { label: "Floor Area Ratio", value: far.toFixed(2) },
+      { label: "Max FAR Limit", value: maxLimit !== null ? maxLimit.toFixed(2) : "—", note: maxLimit !== null ? (far > maxLimit ? `Over by ${round2(far - maxLimit).toFixed(2)}` : `Remaining ${round2(maxLimit - far).toFixed(2)}`) : "Set a limit to validate" }
+    ]);
+  }
+
+  // ---- Lot Coverage ----
+  function calcCoverage() {
+    const fp = parseFloat($("cov-footprint").value);
+    const plot = parseFloat($("cov-plot").value);
+    const max = parseFloat($("cov-max").value);
+    const out = $("cov-result");
+    if (isNaN(fp) || isNaN(plot)) return neutralState(out);
+    if (plot === 0) return errorState(out, "Plot area cannot be zero — division by zero.");
+    const cov = round2((fp / plot) * 100);
+    const maxLimit = isNaN(max) ? settings.covMax : max;
+    let level = "green", title = "Lot coverage within acceptable limits";
+    if (cov > maxLimit) { level = "yellow"; title = "Lot coverage exceeds the default maximum limit"; }
+    if (cov > maxLimit * 1.15) { level = "red"; title = "Lot coverage significantly exceeds the maximum limit"; }
+    renderStatus(out, level, title, [
+      { label: "Lot Coverage", value: cov.toFixed(2) + "%" },
+      { label: "Max Coverage Limit", value: maxLimit.toFixed(2) + "%", note: cov > maxLimit ? `Over by ${round2(cov - maxLimit).toFixed(2)}%` : `Remaining ${round2(maxLimit - cov).toFixed(2)}%` }
+    ]);
+  }
+
+  // ---- OSR ----
+  function calcOSR() {
+    const open = parseFloat($("osr-open").value);
+    const gfa = parseFloat($("osr-gfa").value);
+    const min = parseFloat($("osr-min").value);
+    const out = $("osr-result");
+    if (isNaN(open) || isNaN(gfa)) return neutralState(out);
+    if (gfa === 0) return errorState(out, "Gross Floor Area cannot be zero — division by zero.");
+    const osr = round2((open / gfa) * 100);
+    const minLimit = isNaN(min) ? settings.osrMin : min;
+    let level = "green", title = "Open space ratio meets recommended minimum";
+    if (osr < minLimit) { level = "red"; title = "Open space ratio falls below the recommended minimum"; }
+    else if (osr < minLimit * 1.1) { level = "yellow"; title = "Open space ratio is close to the recommended minimum"; }
+    renderStatus(out, level, title, [
+      { label: "Open Space Ratio", value: osr.toFixed(2) + "%" },
+      { label: "Min Recommended OSR", value: minLimit.toFixed(2) + "%", note: osr < minLimit ? `Short by ${round2(minLimit - osr).toFixed(2)}%` : `Above minimum by ${round2(osr - minLimit).toFixed(2)}%` }
+    ]);
+  }
+
+  // ---- ADA Ramp ----
+  function calcRamp() {
+    const rise = parseFloat($("ramp-rise").value);
+    const slope = parseFloat($("ramp-slope").value);
+    const out = $("ramp-result");
+    if (isNaN(rise) || isNaN(slope)) return neutralState(out);
+    if (slope <= 0) return errorState(out, "Slope ratio must be greater than zero.");
+    const run = round2(rise * slope);
+    const pct = round2((1 / slope) * 100);
+    const maxRatio = settings.rampMaxRatio; // e.g., 12 -> 1:12
+    const unitLabel = settings.unit === "imperial" ? "in" : "cm";
+    const landingLimit = settings.unit === "imperial" ? settings.rampLandingFt * 12 : CONV.ftToM(settings.rampLandingFt) * 100;
+    const runDisplayUnit = settings.unit === "imperial" ? "in" : "cm";
+
+    let level, title;
+    if (slope < maxRatio) {
+      level = "red"; title = `Slope steeper than the max allowed 1:${maxRatio} baseline`;
+    } else if (slope === maxRatio) {
+      level = "yellow"; title = `Slope is exactly at the maximum allowed 1:${maxRatio} limit`;
+    } else {
+      level = "green"; title = `Compliant — shallower and safer than the 1:${maxRatio} baseline`;
+    }
+
+    const lines = [
+      { label: "Required Horizontal Run", value: run.toFixed(2) + " " + runDisplayUnit },
+      { label: "Design Slope", value: "1:" + round2(slope).toFixed(2) + " (" + pct.toFixed(2) + "%)" },
+      { label: "Max Allowed Baseline", value: "1:" + round2(maxRatio).toFixed(2) }
+    ];
+
+    if (run > landingLimit) {
+      lines.push({ label: "Landing Required", value: "YES", note: `Run exceeds max continuous run of ${round2(landingLimit).toFixed(2)} ${runDisplayUnit} — a resting landing is mandatory.` });
+      if (level === "green") level = "yellow";
+      if (level !== "red") title += " — landing required for this run length";
+    } else {
+      lines.push({ label: "Landing Required", value: "NO", note: `Within max continuous run of ${round2(landingLimit).toFixed(2)} ${runDisplayUnit}.` });
+    }
+
+    renderStatus(out, level, title, lines);
+  }
+
+  // ---- Stair Comfort (Blondel) ----
+  function calcStairs() {
+    const R = parseFloat($("stair-riser").value);
+    const T = parseFloat($("stair-tread").value);
+    const out = $("stair-result");
+    if (isNaN(R) || isNaN(T)) return neutralState(out);
+
+    const blondel = round2(2 * R + T);
+    const unitLabel = settings.unit === "imperial" ? "in" : "cm";
+    const minR = settings.blondelMinIn, maxR = settings.blondelMaxIn;
+    const riserMax = settings.riserMaxIn, treadMin = settings.treadMinIn;
+
+    const riserFail = R > riserMax;
+    const treadFail = T < treadMin;
+    const blondelPass = blondel >= minR && blondel <= maxR;
+
+    let level, title;
+    if (riserFail || treadFail) {
+      level = "red";
+      title = riserFail && treadFail ? "Riser exceeds max AND tread below min — fails code" : (riserFail ? "Riser height exceeds the maximum allowed" : "Tread depth is below the minimum allowed");
+    } else if (blondelPass) {
+      level = "green";
+      title = "Pass — within Blondel's ideal ergonomic envelope";
+    } else {
+      level = "yellow";
+      title = "Individually code-compliant, but outside Blondel's ideal comfort range";
+    }
+
+    renderStatus(out, level, title, [
+      { label: "Blondel Value (2R + T)", value: blondel.toFixed(2) + " " + unitLabel, note: `Ideal range ${minR.toFixed(2)}–${maxR.toFixed(2)} ${unitLabel}` },
+      { label: "Riser Height", value: R.toFixed(2) + " " + unitLabel, note: riserFail ? `Exceeds max of ${riserMax.toFixed(2)} ${unitLabel}` : `Within max of ${riserMax.toFixed(2)} ${unitLabel}` },
+      { label: "Tread Depth", value: T.toFixed(2) + " " + unitLabel, note: treadFail ? `Below min of ${treadMin.toFixed(2)} ${unitLabel}` : `Meets min of ${treadMin.toFixed(2)} ${unitLabel}` },
+      { label: "Blondel Pass/Fail", value: blondelPass ? "PASS" : "FAIL" }
+    ]);
+  }
+
+  // ---- Occupant Load ----
+  const OCC_FACTOR_LABELS = {
+    "7": "Assembly, Concentrated",
+    "15": "Assembly, Standing/Unconcentrated",
+    "15t": "Assembly, Tables/Chairs",
+    "20": "Business / Mercantile (equiv. 60 sq ft/person)",
+    "50": "Business - Office (equiv. 100 sq ft/person)",
+    "30": "Educational - Classroom (equiv. 20 sq ft/person)",
+    "200": "Storage / Warehouse (equiv. 300 sq ft/person)"
+  };
+  // Note: dropdown values map directly to sq ft/person except mercantile/office/classroom/storage which use realistic factors below.
+  const OCC_REAL_FACTOR = { "7": 7, "15": 15, "15t": 15, "20": 60, "50": 100, "30": 20, "200": 300 };
+
+  $("occ-factor").addEventListener("change", () => {
+    $("occ-custom-wrap").classList.toggle("hidden", $("occ-factor").value !== "custom");
+    calcOccupant();
+  });
+
+  function calcOccupant() {
+    const area = parseFloat($("occ-area").value);
+    const sel = $("occ-factor").value;
+    const out = $("occ-result");
+    let factor;
+    if (sel === "custom") {
+      factor = parseFloat($("occ-custom").value);
+    } else {
+      factor = OCC_REAL_FACTOR[sel];
+    }
+    if (isNaN(area)) return neutralState(out);
+    if (isNaN(factor) || factor <= 0) return errorState(out, "Occupant load factor must be greater than zero.");
+
+    const occupants = Math.ceil(area / factor);
+    const stairWidth = round2(occupants * settings.exitStairFactor);
+    const levelWidth = round2(occupants * settings.exitLevelFactor);
+    const unitLabel = settings.unit === "imperial" ? "in" : "cm";
+
+    renderStatus(out, "green", "Occupant load and required egress width calculated", [
+      { label: "Maximum Occupant Load", value: occupants + " persons" },
+      { label: "Load Factor Used", value: factor + " " + (settings.unit === "imperial" ? "sq ft" : "sq m") + "/person" },
+      { label: "Min Total Exit Width (Stairs)", value: stairWidth.toFixed(2) + " " + unitLabel, note: `${settings.exitStairFactor} ${unitLabel}/person` },
+      { label: "Min Total Exit Width (Level/Doors)", value: levelWidth.toFixed(2) + " " + unitLabel, note: `${settings.exitLevelFactor} ${unitLabel}/person` }
+    ]);
+  }
+
+  // ---- WWR ----
+  function calcWWR() {
+    const win = parseFloat($("wwr-window").value);
+    const wall = parseFloat($("wwr-wall").value);
+    const min = parseFloat($("wwr-min").value);
+    const max = parseFloat($("wwr-max").value);
+    const out = $("wwr-result");
+    if (isNaN(win) || isNaN(wall)) return neutralState(out);
+    if (wall === 0) return errorState(out, "Exterior wall area cannot be zero — division by zero.");
+    const wwr = round2((win / wall) * 100);
+    const minT = isNaN(min) ? settings.wwrMin : min;
+    const maxT = isNaN(max) ? settings.wwrMax : max;
+
+    let level, title;
+    if (wwr > maxT) { level = "red"; title = "WWR exceeds max threshold — high-energy-consumption risk"; }
+    else if (wwr < minT) { level = "yellow"; title = "WWR is below the recommended energy-efficiency target range"; }
+    else { level = "green"; title = "WWR is within the recommended energy-efficiency target range"; }
+
+    renderStatus(out, level, title, [
+      { label: "Window-to-Wall Ratio", value: wwr.toFixed(2) + "%" },
+      { label: "Target Range", value: minT.toFixed(2) + "% – " + maxT.toFixed(2) + "%" }
+    ]);
+  }
+
+  // ---- U-Value ----
+  function calcUValue() {
+    const r1 = parseFloat($("uv-r1").value) || 0;
+    const r2 = parseFloat($("uv-r2").value) || 0;
+    const r3 = parseFloat($("uv-r3").value) || 0;
+    const r4 = parseFloat($("uv-r4").value) || 0;
+    const out = $("uvalue-result");
+    const totalR = r1 + r2 + r3 + r4;
+    const anyInput = [$("uv-r1").value, $("uv-r2").value, $("uv-r3").value, $("uv-r4").value].some(v => v !== "");
+    if (!anyInput) return neutralState(out);
+    if (totalR === 0) return errorState(out, "Total R-Value cannot be zero — division by zero.");
+
+    const u = totalR === 0 ? NaN : 1 / totalR;
+    const uRounded = round2(u);
+    const type = $("uvalue-target-type").value;
+    const targetRoof = parseFloat($("uv-target-roof").value) || settings.uvRoofTarget;
+    const targetWall = parseFloat($("uv-target-wall").value) || settings.uvWallTarget;
+    const target = type === "roof" ? targetRoof : targetWall;
+
+    let level, title;
+    if (uRounded <= target) { level = "green"; title = "Assembly outperforms the target U-Value requirement"; }
+    else if (uRounded <= target * 1.15) { level = "yellow"; title = "Assembly is close to, but exceeds, the target U-Value"; }
+    else { level = "red"; title = "Assembly exceeds the code maximum U-Value limit"; }
+
+    renderStatus(out, level, title, [
+      { label: "Total R-Value", value: round2(totalR).toFixed(2) },
+      { label: "Composite U-Value", value: uRounded.toFixed(2), note: `1 ÷ ${round2(totalR).toFixed(2)}` },
+      { label: "Target Max U-Value (" + (type === "roof" ? "Roof" : "Wall") + ")", value: target.toFixed(2) }
+    ]);
+  }
+
+  $("uvalue-target-type").addEventListener("change", calcUValue);
+
+  /* =========================================================
+     8. BIND INPUT LISTENERS (real-time)
+     ========================================================= */
+  const calcMap = {
+    far: calcFAR, coverage: calcCoverage, osr: calcOSR,
+    ramp: calcRamp, stairs: calcStairs, occupant: calcOccupant,
+    wwr: calcWWR, uvalue: calcUValue
+  };
+
+  function recalcAll() {
+    Object.values(calcMap).forEach(fn => fn());
+  }
+
+  document.querySelectorAll("section.view input[type=number], section.view select").forEach(el => {
+    el.addEventListener("input", () => {
+      const view = el.closest("section.view").id.replace("view-", "");
+      (calcMap[view] || function(){})();
+    });
+  });
+
+  /* =========================================================
+     9. SETTINGS FORM BINDING
+     ========================================================= */
+  const settingsFieldMap = {
+    "set-far-max": "farMax",
+    "set-cov-max": "covMax",
+    "set-osr-min": "osrMin",
+    "set-ramp-max": "rampMaxRatio",
+    "set-ramp-landing": "rampLandingFt",
+    "set-blondel-min": "blondelMinIn",
+    "set-blondel-max": "blondelMaxIn",
+    "set-riser-max": "riserMaxIn",
+    "set-tread-min": "treadMinIn",
+    "set-exit-stair": "exitStairFactor",
+    "set-exit-level": "exitLevelFactor",
+    "set-wwr-min": "wwrMin",
+    "set-wwr-max": "wwrMax",
+    "set-uv-roof": "uvRoofTarget",
+    "set-uv-wall": "uvWallTarget"
+  };
+
+  // Fields whose stored value is imperial-based length (inches) and needs conversion for display
+  const LENGTH_IN_FIELDS = new Set(["set-blondel-min", "set-blondel-max", "set-riser-max", "set-tread-min", "set-exit-stair", "set-exit-level"]);
+  const LENGTH_FT_FIELDS = new Set(["set-ramp-landing"]);
+
+  function populateSettingsForm() {
+    Object.keys(settingsFieldMap).forEach(fieldId => {
+      const key = settingsFieldMap[fieldId];
+      let val = settings[key];
+      const el = $(fieldId);
+      if (LENGTH_IN_FIELDS.has(fieldId) && settings.unit === "metric" && fieldId !== "set-exit-stair" && fieldId !== "set-exit-level") {
+        val = CONV.inToCm(val);
+      } else if (LENGTH_FT_FIELDS.has(fieldId) && settings.unit === "metric") {
+        val = CONV.ftToM(val);
+      }
+      el.value = round2(val);
+    });
+    $("set-far-max").value = settings.farMax;
+    $("far-max").placeholder = settings.farMax;
+    // Also refresh main-view default placeholders
+    if (!$("far-max").value) $("far-max").value = settings.farMax;
+    if (!$("cov-max").value) $("cov-max").value = settings.covMax;
+    if (!$("osr-min").value) $("osr-min").value = settings.osrMin;
+    if (!$("wwr-min").value) $("wwr-min").value = settings.wwrMin;
+    if (!$("wwr-max").value) $("wwr-max").value = settings.wwrMax;
+    if (!$("uv-target-roof").value) $("uv-target-roof").value = settings.uvRoofTarget;
+    if (!$("uv-target-wall").value) $("uv-target-wall").value = settings.uvWallTarget;
+  }
+
+  document.querySelectorAll("#settingsDrawer input[type=number]").forEach(el => {
+    el.addEventListener("input", () => {
+      const key = settingsFieldMap[el.id];
+      if (!key) return;
+      let val = parseFloat(el.value);
+      if (isNaN(val)) return;
+      if (LENGTH_IN_FIELDS.has(el.id) && settings.unit === "metric" && el.id !== "set-exit-stair" && el.id !== "set-exit-level") {
+        val = CONV.cmToIn(val);
+      } else if (LENGTH_FT_FIELDS.has(el.id) && settings.unit === "metric") {
+        val = CONV.mToFt(val);
+      }
+      settings[key] = val;
+      saveSettings();
+      refreshUnitButtons();
+      recalcAll();
+    });
+  });
+
+  document.getElementById("resetSettingsBtn").addEventListener("click", () => {
+    const preserveUnit = settings.unit;
+    settings = { ...DEFAULTS, unit: preserveUnit };
+    saveSettings();
+    populateSettingsForm();
+    refreshUnitButtons();
+    recalcAll();
+  });
+
+  /* =========================================================
+     10. FORM PERSISTENCE (calculator inputs, not just settings)
+     ========================================================= */
+  const FORM_STORAGE_KEY = "archcalc_form_inputs_v1";
+
+  function saveFormInputs() {
+    const data = {};
+    document.querySelectorAll("section.view input, section.view select").forEach(el => {
+      data[el.id] = el.value;
+    });
+    localStorage.setItem(FORM_STORAGE_KEY, JSON.stringify(data));
+  }
+
+  function loadFormInputs() {
+    try {
+      const raw = localStorage.getItem(FORM_STORAGE_KEY);
+      if (!raw) return;
+      const data = JSON.parse(raw);
+      Object.keys(data).forEach(id => {
+        const el = $(id);
+        if (el) el.value = data[id];
+      });
+      if ($("occ-factor").value === "custom") $("occ-custom-wrap").classList.remove("hidden");
+    } catch (e) { /* ignore corrupt storage */ }
+  }
+
+  document.querySelectorAll("section.view input, section.view select").forEach(el => {
+    el.addEventListener("input", saveFormInputs);
+    el.addEventListener("change", saveFormInputs);
+  });
+
+  /* =========================================================
+     11. INIT
+     ========================================================= */
+  function init() {
+    refreshUnitButtons();
+    populateSettingsForm();
+    loadFormInputs();
+    recalcAll();
+    setActiveView("far");
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
