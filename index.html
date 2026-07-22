@@ -62,6 +62,27 @@
 
   #sidebar { scrollbar-width: thin; }
   .drawer-open #settingsDrawer { transform: translateX(0); }
+
+  /* ---- PDF / print report ---- */
+  #printReport { display: none; }
+  .sig-box {
+    border: 1.5px dashed #94a3b8;
+    border-radius: 6px;
+    height: 72px;
+  }
+  @media print {
+    @page { size: auto; margin: 14mm 12mm; }
+    html, body { background: #ffffff !important; }
+    body > * { display: none !important; }
+    #printReport {
+      display: block !important;
+      position: static;
+      color: #111827;
+      font-family: 'Inter', sans-serif;
+    }
+    #printReport, #printReport * { visibility: visible; }
+    .print-avoid-break { break-inside: avoid; page-break-inside: avoid; }
+  }
 </style>
 </head>
 <body class="bg-base text-slate-200 min-h-screen">
@@ -76,9 +97,14 @@
     <div class="flex items-center gap-2 font-bold text-slate-100">
       <span class="h-2.5 w-2.5 rounded-sm bg-accent"></span> ArchCalc
     </div>
-    <button id="mobileSettingsBtn" class="p-2 -mr-2 text-slate-300">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-    </button>
+    <div class="flex items-center gap-1 -mr-2">
+      <button id="mobileExportBtn" class="p-2 text-slate-300" aria-label="Export PDF Report">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6M7 4h7l5 5v11a1 1 0 01-1 1H7a1 1 0 01-1-1V5a1 1 0 011-1z" /></svg>
+      </button>
+      <button id="mobileSettingsBtn" class="p-2 text-slate-300">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+      </button>
+    </div>
   </div>
 
   <!-- Sidebar -->
@@ -222,7 +248,11 @@
           <button data-unit="imperial" class="unit-btn text-xs font-semibold px-3 py-1.5 rounded-full transition">Imperial</button>
           <button data-unit="metric" class="unit-btn text-xs font-semibold px-3 py-1.5 rounded-full transition">Metric</button>
         </div>
-        <button id="settingsBtn" class="flex items-center gap-2 text-sm font-semibold bg-panel2 hover:bg-panel border border-white/10 rounded-md px-4 py-2.5 text-slate-200 transition">
+        <button id="exportReportBtn" class="flex items-center gap-2 text-sm font-semibold bg-panel2 hover:bg-panel border border-white/10 rounded-md px-4 py-2.5 text-slate-200 transition whitespace-nowrap">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6M7 4h7l5 5v11a1 1 0 01-1 1H7a1 1 0 01-1-1V5a1 1 0 011-1z" /></svg>
+          Export PDF Report
+        </button>
+        <button id="settingsBtn" class="flex items-center gap-2 text-sm font-semibold bg-panel2 hover:bg-panel border border-white/10 rounded-md px-4 py-2.5 text-slate-200 transition whitespace-nowrap">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
           Code Settings
         </button>
@@ -766,6 +796,19 @@
   </div>
 
   <div class="p-6 space-y-7">
+    <div class="space-y-4">
+      <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Report Details</p>
+      <p class="text-[11px] text-slate-600 -mt-2">Used as the default header on every exported PDF report. Editable per-export.</p>
+      <div>
+        <label class="block text-xs text-slate-400 mb-1.5">Company / Firm Name</label>
+        <input type="text" id="set-report-company" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. Andalus Architecture Studio">
+      </div>
+      <div>
+        <label class="block text-xs text-slate-400 mb-1.5">Prepared By</label>
+        <input type="text" id="set-report-prepared-by" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. Jordan Lee, Architect">
+      </div>
+    </div>
+
     <div>
       <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Global Unit System</label>
       <div class="flex items-center gap-2 bg-panel2 border border-white/10 rounded-lg p-1">
@@ -937,6 +980,55 @@
   </div>
 </aside>
 
+<!-- Export PDF Report Modal -->
+<div id="reportModalOverlay" class="fixed inset-0 bg-black/70 z-[60] hidden flex items-center justify-center p-4">
+  <div class="card rounded-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+    <div class="flex items-center justify-between px-6 py-5 border-b border-white/10">
+      <div>
+        <h3 class="text-base font-bold text-slate-50">Export PDF Report</h3>
+        <p id="reportModalSubtitle" class="text-xs text-slate-500 mt-0.5">Floor Area Ratio</p>
+      </div>
+      <button id="closeReportModalBtn" class="p-1.5 text-slate-400 hover:text-slate-200">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+      </button>
+    </div>
+    <div class="p-6 space-y-4">
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-1.5">Company / Firm Name</label>
+          <input type="text" id="rpt-company" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. Andalus Architecture Studio">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-1.5">Prepared By</label>
+          <input type="text" id="rpt-prepared-by" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. Jordan Lee, Architect">
+        </div>
+      </div>
+      <div>
+        <label class="block text-xs font-semibold text-slate-400 mb-1.5">Prepared To / Issued To</label>
+        <input type="text" id="rpt-prepared-to" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. City Planning Department">
+      </div>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-1.5">Date</label>
+          <input type="date" id="rpt-date" class="w-full rounded-md px-3.5 py-2.5 text-sm">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-1.5">Project / Reference</label>
+          <input type="text" id="rpt-project" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. 142 Elm St. Renovation">
+        </div>
+      </div>
+      <p class="text-[11px] text-slate-600">Company and Prepared By are remembered for next time. The report includes the current calculator's inputs, result, and a signature block.</p>
+    </div>
+    <div class="flex items-center justify-end gap-2 px-6 py-4 border-t border-white/10">
+      <button id="cancelReportBtn" class="text-sm font-semibold bg-panel2 hover:bg-panel border border-white/10 rounded-md px-4 py-2.5 text-slate-300 transition">Cancel</button>
+      <button id="generateReportBtn" class="text-sm font-semibold bg-accent hover:brightness-110 rounded-md px-4 py-2.5 text-black transition">Generate &amp; Print</button>
+    </div>
+  </div>
+</div>
+
+<!-- Hidden print-only report layout. Populated by generateReport() just before window.print(). -->
+<div id="printReport" class="hidden"></div>
+
 <script>
 (function () {
   "use strict";
@@ -984,7 +1076,11 @@
     rt60TargetMax: 1.2,
 
     // -- BOQ Tonnage & Takeoff --
-    concreteDryFactor: 1.54
+    concreteDryFactor: 1.54,
+
+    // -- Report Details (PDF export header) --
+    reportCompany: "",
+    reportPreparedBy: ""
   };
 
   const STORAGE_KEY = "archcalc_settings_v1";
@@ -1175,8 +1271,13 @@
   /* =========================================================
      6. STATUS BADGE RENDERER
      ========================================================= */
+  // Cache of each view's most recently rendered result, used by the PDF report
+  // generator so it doesn't have to re-derive state from styled DOM markup.
+  const lastResults = {};
+
   // level: 'green' | 'yellow' | 'red' | 'neutral'
   function renderStatus(container, level, title, lines) {
+    lastResults[container.id.replace("-result", "")] = { kind: "status", level, title, lines };
     const palette = {
       green: { bg: "bg-emerald-500/10", border: "border-emerald-500/30", text: "text-emerald-400", dot: "bg-emerald-400", glow: "glow-green", label: "COMPLIANT" },
       yellow: { bg: "bg-amber-500/10", border: "border-amber-500/30", text: "text-amber-400", dot: "bg-amber-400", glow: "glow-yellow", label: "WARNING" },
@@ -1204,6 +1305,7 @@
   }
 
   function errorState(container, message) {
+    lastResults[container.id.replace("-result", "")] = { kind: "error", message };
     container.innerHTML = `
       <div class="card rounded-xl p-5 md:p-7 border border-red-500/30 bg-red-500/5">
         <div class="flex items-center gap-2">
@@ -1863,6 +1965,9 @@
     canvasWrap.appendChild(grid);
     out.after(canvasWrap);
     out._canvasWrap = canvasWrap;
+
+    // Snapshot the cutting-pattern canvases as images for the PDF report.
+    lastResults.mdfnest.sheetImages = Array.from(grid.querySelectorAll("canvas")).map(c => c.toDataURL("image/png"));
   }
 
   // ---- RHS piece-row management ----
@@ -1981,6 +2086,10 @@
     barsWrap.appendChild(list);
     out.after(barsWrap);
     out._barsWrap = barsWrap;
+
+    // Stash the per-bar cut sequence for the PDF report.
+    lastResults.rhsnest.bars = result.bars;
+    lastResults.rhsnest.barUnitLabel = unitLabel;
   }
 
   // The generic listener below covers type=number inputs already; the grain-lock
@@ -2089,6 +2198,8 @@
     if (!$("mdf-kerf").value) $("mdf-kerf").value = round2(settings.unit === "metric" ? CONV.inToMm(settings.kerfMdfIn) : settings.kerfMdfIn);
     if (!$("rhs-stock-length").value) $("rhs-stock-length").value = round2(settings.unit === "imperial" ? CONV.mToFt(settings.stockBarLengthM) : settings.stockBarLengthM);
     if (!$("rhs-kerf").value) $("rhs-kerf").value = round2(settings.unit === "imperial" ? CONV.mmToIn(settings.kerfRhsMm) : settings.kerfRhsMm);
+    $("set-report-company").value = settings.reportCompany;
+    $("set-report-prepared-by").value = settings.reportPreparedBy;
   }
 
   document.querySelectorAll("#settingsDrawer input[type=number]").forEach(el => {
@@ -2114,6 +2225,9 @@
       recalcAll();
     });
   });
+
+  $("set-report-company").addEventListener("input", () => { settings.reportCompany = $("set-report-company").value; saveSettings(); });
+  $("set-report-prepared-by").addEventListener("input", () => { settings.reportPreparedBy = $("set-report-prepared-by").value; saveSettings(); });
 
   document.getElementById("resetSettingsBtn").addEventListener("click", () => {
     const preserveUnit = settings.unit;
@@ -2162,7 +2276,280 @@
   });
 
   /* =========================================================
-     11. INIT
+     11. PDF REPORT EXPORT
+     ========================================================= */
+  const REPORT_LAST_KEY = "archcalc_report_last_v1";
+
+  function currentViewId() {
+    const el = document.querySelector(".view.active");
+    return el ? el.id.replace("view-", "") : "far";
+  }
+
+  function todayISO() {
+    const d = new Date();
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+  }
+
+  function openReportModal() {
+    const viewId = currentViewId();
+    const meta = VIEW_META[viewId];
+    $("reportModalSubtitle").textContent = meta ? meta.title : "";
+    $("rpt-company").value = settings.reportCompany || "";
+    $("rpt-prepared-by").value = settings.reportPreparedBy || "";
+    $("rpt-date").value = todayISO();
+    let last = {};
+    try { last = JSON.parse(localStorage.getItem(REPORT_LAST_KEY) || "{}"); } catch (e) { /* ignore */ }
+    $("rpt-prepared-to").value = last.preparedTo || "";
+    $("rpt-project").value = last.project || "";
+    $("reportModalOverlay").classList.remove("hidden");
+    $("reportModalOverlay").classList.add("flex");
+  }
+  function closeReportModal() {
+    $("reportModalOverlay").classList.add("hidden");
+    $("reportModalOverlay").classList.remove("flex");
+  }
+
+  $("exportReportBtn").addEventListener("click", openReportModal);
+  $("mobileExportBtn").addEventListener("click", openReportModal);
+  $("closeReportModalBtn").addEventListener("click", closeReportModal);
+  $("cancelReportBtn").addEventListener("click", closeReportModal);
+  $("reportModalOverlay").addEventListener("click", (e) => { if (e.target.id === "reportModalOverlay") closeReportModal(); });
+
+  // Human-readable label for an input/select, derived from its markup rather than
+  // hardcoded per-field, so this works unmodified across all 15+ calculators.
+  function fieldLabelFor(el) {
+    const wrapLabel = el.closest("label");
+    if (wrapLabel) return wrapLabel.textContent.replace(/\s+/g, " ").trim();
+    const container = el.closest("div");
+    const label = container && container.querySelector(":scope > label");
+    if (label) return label.textContent.replace(/\s+/g, " ").replace(/[()–].*$/, "").trim();
+    return el.placeholder || el.id;
+  }
+  function fieldValueFor(el) {
+    if (el.type === "checkbox") return el.checked ? "Yes" : "No";
+    if (el.tagName === "SELECT") return el.options[el.selectedIndex] ? el.options[el.selectedIndex].text : el.value;
+    return el.value;
+  }
+
+  function buildGenericInputRows(viewId) {
+    const section = $("view-" + viewId);
+    const rows = [];
+    section.querySelectorAll("input:not(.piece-input):not(.sab-label):not(.sab-area):not(.sab-coef), select").forEach(el => {
+      const val = fieldValueFor(el);
+      if (val === "" || val === null || val === undefined) return;
+      rows.push({ label: fieldLabelFor(el), value: val });
+    });
+    return rows;
+  }
+
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  }
+
+  function reportRowsTableHtml(rows) {
+    if (!rows.length) return "";
+    return `<table style="width:100%;border-collapse:collapse;font-size:11px;">
+      ${rows.map(r => `<tr>
+        <td style="padding:4px 8px;color:#6b7280;border-bottom:1px solid #e5e7eb;width:55%;">${esc(r.label)}</td>
+        <td style="padding:4px 8px;color:#111827;font-weight:600;border-bottom:1px solid #e5e7eb;">${esc(r.value)}</td>
+      </tr>`).join("")}
+    </table>`;
+  }
+
+  function reportResultHtml(viewId) {
+    const res = lastResults[viewId];
+    if (!res) return `<div style="border:1px solid #fca5a5;background:#fef2f2;border-radius:6px;padding:12px;font-size:12px;color:#991b1b;">No result was calculated for this view before export. Fill in the required fields and try again.</div>`;
+    if (res.kind === "error") {
+      return `<div style="border:1px solid #fca5a5;background:#fef2f2;border-radius:6px;padding:12px;font-size:12px;color:#991b1b;"><strong>Validation Error:</strong> ${esc(res.message)}</div>`;
+    }
+    if (res.level === "neutral") {
+      return `<div style="border:1px solid #e5e7eb;background:#f9fafb;border-radius:6px;padding:12px;font-size:12px;color:#6b7280;">No result was calculated for this view before export. Fill in the required fields and try again.</div>`;
+    }
+    const palette = {
+      green: { bg: "#ecfdf5", border: "#6ee7b7", text: "#047857", label: "COMPLIANT" },
+      yellow: { bg: "#fffbeb", border: "#fcd34d", text: "#b45309", label: "WARNING" },
+      red: { bg: "#fef2f2", border: "#fca5a5", text: "#b91c1c", label: "NON-COMPLIANT" }
+    };
+    const p = palette[res.level] || palette.green;
+    return `
+      <div class="print-avoid-break" style="border:1.5px solid ${p.border};border-radius:8px;padding:14px 16px;background:${p.bg};">
+        <div style="font-size:10px;font-weight:700;letter-spacing:0.06em;color:${p.text};text-transform:uppercase;margin-bottom:6px;">${p.label}</div>
+        <div style="font-size:14px;font-weight:700;color:#111827;margin-bottom:10px;">${esc(res.title)}</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          ${res.lines.map(l => `
+            <div style="border:1px solid ${p.border};border-radius:6px;padding:8px 10px;background:#ffffff;">
+              <div style="font-size:9px;color:#6b7280;margin-bottom:2px;">${esc(l.label)}</div>
+              <div style="font-size:14px;font-weight:800;color:${p.text};font-family:'JetBrains Mono',monospace;">${esc(l.value)}</div>
+              ${l.note ? `<div style="font-size:9px;color:#9ca3af;margin-top:2px;">${esc(l.note)}</div>` : ""}
+            </div>`).join("")}
+        </div>
+      </div>`;
+  }
+
+  function reportDetailSectionHtml(viewId) {
+    if (viewId === "mdfnest") {
+      const pieceRows = readMdfRows().filter(p => !isNaN(p.w) && !isNaN(p.h) && p.qty > 0);
+      const unitLabel = settings.unit === "imperial" ? "in" : "mm";
+      let html = `<h3 style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:#374151;margin:16px 0 6px;">Required Pieces</h3>
+        <table style="width:100%;border-collapse:collapse;font-size:11px;">
+          <thead><tr>
+            <th style="text-align:left;padding:4px 8px;border-bottom:2px solid #d1d5db;color:#374151;">Label</th>
+            <th style="text-align:left;padding:4px 8px;border-bottom:2px solid #d1d5db;color:#374151;">Width (${unitLabel})</th>
+            <th style="text-align:left;padding:4px 8px;border-bottom:2px solid #d1d5db;color:#374151;">Height (${unitLabel})</th>
+            <th style="text-align:left;padding:4px 8px;border-bottom:2px solid #d1d5db;color:#374151;">Qty</th>
+          </tr></thead>
+          <tbody>${pieceRows.map(p => `<tr>
+            <td style="padding:4px 8px;border-bottom:1px solid #e5e7eb;">${esc(p.label)}</td>
+            <td style="padding:4px 8px;border-bottom:1px solid #e5e7eb;">${round2(p.w)}</td>
+            <td style="padding:4px 8px;border-bottom:1px solid #e5e7eb;">${round2(p.h)}</td>
+            <td style="padding:4px 8px;border-bottom:1px solid #e5e7eb;">${p.qty}</td>
+          </tr>`).join("")}</tbody>
+        </table>`;
+      const imgs = (lastResults.mdfnest && lastResults.mdfnest.sheetImages) || [];
+      if (imgs.length) {
+        html += `<h3 style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:#374151;margin:16px 0 6px;">Cutting Pattern</h3>
+          <div class="print-avoid-break" style="display:flex;flex-wrap:wrap;gap:10px;">
+            ${imgs.map((src, i) => `<div style="text-align:center;"><img src="${src}" style="border:1px solid #d1d5db;border-radius:4px;max-width:220px;" /><div style="font-size:9px;color:#6b7280;margin-top:2px;">Sheet ${i + 1}</div></div>`).join("")}
+          </div>`;
+      }
+      return html;
+    }
+    if (viewId === "rhsnest") {
+      const pieceRows = readRhsRows().filter(p => !isNaN(p.length) && p.qty > 0);
+      const unitLabel = settings.unit === "imperial" ? "ft" : "m";
+      let html = `<h3 style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:#374151;margin:16px 0 6px;">Required Cut Lengths</h3>
+        <table style="width:100%;border-collapse:collapse;font-size:11px;">
+          <thead><tr>
+            <th style="text-align:left;padding:4px 8px;border-bottom:2px solid #d1d5db;color:#374151;">Label</th>
+            <th style="text-align:left;padding:4px 8px;border-bottom:2px solid #d1d5db;color:#374151;">Length (${unitLabel})</th>
+            <th style="text-align:left;padding:4px 8px;border-bottom:2px solid #d1d5db;color:#374151;">Qty</th>
+          </tr></thead>
+          <tbody>${pieceRows.map(p => `<tr>
+            <td style="padding:4px 8px;border-bottom:1px solid #e5e7eb;">${esc(p.label)}</td>
+            <td style="padding:4px 8px;border-bottom:1px solid #e5e7eb;">${round2(p.length)}</td>
+            <td style="padding:4px 8px;border-bottom:1px solid #e5e7eb;">${p.qty}</td>
+          </tr>`).join("")}</tbody>
+        </table>`;
+      const bars = (lastResults.rhsnest && lastResults.rhsnest.bars) || [];
+      if (bars.length) {
+        const bu = lastResults.rhsnest.barUnitLabel || unitLabel;
+        html += `<h3 style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:#374151;margin:16px 0 6px;">Cut Sequence</h3>
+          <div class="print-avoid-break" style="font-size:11px;color:#111827;">
+            ${bars.map((b, i) => `<div style="padding:3px 0;border-bottom:1px solid #f1f5f9;">Bar ${i + 1} — ${b.items.map(it => esc(it.label) + " (" + round2(it.length) + ")").join(" + ")} | remnant ${round2(b.remnant)} ${bu}</div>`).join("")}
+          </div>`;
+      }
+      return html;
+    }
+    if (viewId === "sabine") {
+      const rows = [];
+      document.querySelectorAll("#sabine-rows > div").forEach(row => {
+        const area = parseFloat(row.querySelector(".sab-area").value);
+        const coef = parseFloat(row.querySelector(".sab-coef").value);
+        const label = row.querySelector(".sab-label").value || "Surface";
+        if (!isNaN(area) && !isNaN(coef)) rows.push({ label, area, coef });
+      });
+      if (!rows.length) return "";
+      const areaUnit = settings.unit === "imperial" ? "sq ft" : "sq m";
+      return `<h3 style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:#374151;margin:16px 0 6px;">Absorptive Surfaces</h3>
+        <table style="width:100%;border-collapse:collapse;font-size:11px;">
+          <thead><tr>
+            <th style="text-align:left;padding:4px 8px;border-bottom:2px solid #d1d5db;color:#374151;">Material</th>
+            <th style="text-align:left;padding:4px 8px;border-bottom:2px solid #d1d5db;color:#374151;">Area (${areaUnit})</th>
+            <th style="text-align:left;padding:4px 8px;border-bottom:2px solid #d1d5db;color:#374151;">Absorption α</th>
+          </tr></thead>
+          <tbody>${rows.map(r => `<tr>
+            <td style="padding:4px 8px;border-bottom:1px solid #e5e7eb;">${esc(r.label)}</td>
+            <td style="padding:4px 8px;border-bottom:1px solid #e5e7eb;">${round2(r.area)}</td>
+            <td style="padding:4px 8px;border-bottom:1px solid #e5e7eb;">${round2(r.coef)}</td>
+          </tr>`).join("")}</tbody>
+        </table>`;
+    }
+    return "";
+  }
+
+  function generateReport() {
+    const viewId = currentViewId();
+    const meta = VIEW_META[viewId] || { title: "Report", sub: "" };
+    const company = $("rpt-company").value.trim();
+    const preparedBy = $("rpt-prepared-by").value.trim();
+    const preparedTo = $("rpt-prepared-to").value.trim();
+    const dateVal = $("rpt-date").value || todayISO();
+    const project = $("rpt-project").value.trim();
+
+    // Remember company / prepared-by globally, and prepared-to / project as a
+    // same-device convenience for the next export.
+    settings.reportCompany = company;
+    settings.reportPreparedBy = preparedBy;
+    saveSettings();
+    populateSettingsForm();
+    localStorage.setItem(REPORT_LAST_KEY, JSON.stringify({ preparedTo, project }));
+
+    const dateDisplay = new Date(dateVal + "T00:00:00").toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
+    const refId = "ARC-" + viewId.toUpperCase() + "-" + dateVal.replace(/-/g, "");
+    const excludedSkip = viewId === "sabine" || viewId === "mdfnest" || viewId === "rhsnest";
+    const inputRows = buildGenericInputRows(viewId);
+
+    $("printReport").innerHTML = `
+      <div style="max-width:960px;margin:0 auto;padding:8px;color:#111827;">
+        <div class="print-avoid-break" style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #10b981;padding-bottom:14px;margin-bottom:18px;">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="display:inline-block;width:12px;height:12px;background:#10b981;border-radius:2px;"></span>
+              <span style="font-size:18px;font-weight:800;color:#111827;">ArchCalc</span>
+            </div>
+            <div style="font-size:11px;color:#6b7280;margin-top:2px;">The Architect's Daily Computational Suite</div>
+          </div>
+          <div style="text-align:right;font-size:11px;color:#6b7280;">
+            <div>Reference: <strong style="color:#111827;">${esc(refId)}</strong></div>
+            <div>Date: <strong style="color:#111827;">${esc(dateDisplay)}</strong></div>
+          </div>
+        </div>
+
+        <h1 style="font-size:20px;font-weight:800;color:#111827;margin:0 0 2px;">${esc(meta.title)} — Computational Report</h1>
+        <p style="font-size:12px;color:#6b7280;margin:0 0 18px;">${esc(meta.sub)}</p>
+
+        <div class="print-avoid-break" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:14px 16px;margin-bottom:20px;font-size:12px;">
+          <div><span style="color:#6b7280;">Company / Firm:</span><br><strong>${esc(company || "—")}</strong></div>
+          <div><span style="color:#6b7280;">Prepared By:</span><br><strong>${esc(preparedBy || "—")}</strong></div>
+          <div><span style="color:#6b7280;">Prepared To / Issued To:</span><br><strong>${esc(preparedTo || "—")}</strong></div>
+          <div><span style="color:#6b7280;">Project / Reference:</span><br><strong>${esc(project || "—")}</strong></div>
+        </div>
+
+        <h2 style="font-size:13px;font-weight:700;color:#111827;border-bottom:1px solid #e5e7eb;padding-bottom:6px;margin:0 0 8px;">Result</h2>
+        ${reportResultHtml(viewId)}
+
+        ${!excludedSkip && inputRows.length ? `
+          <h2 style="font-size:13px;font-weight:700;color:#111827;border-bottom:1px solid #e5e7eb;padding-bottom:6px;margin:20px 0 8px;">Inputs</h2>
+          ${reportRowsTableHtml(inputRows)}
+        ` : ""}
+
+        ${excludedSkip ? reportDetailSectionHtml(viewId) : ""}
+
+        <div class="print-avoid-break" style="margin-top:36px;padding-top:20px;border-top:1px solid #e5e7eb;display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+          <div>
+            <div class="sig-box"></div>
+            <div style="font-size:10px;color:#6b7280;margin-top:6px;">Prepared By — Signature &amp; Date</div>
+            <div style="font-size:11px;color:#111827;font-weight:600;">${esc(preparedBy || "")}</div>
+          </div>
+          <div>
+            <div class="sig-box"></div>
+            <div style="font-size:10px;color:#6b7280;margin-top:6px;">Reviewed / Approved By — Signature &amp; Date</div>
+          </div>
+        </div>
+
+        <div style="margin-top:24px;padding-top:10px;border-top:1px solid #e5e7eb;font-size:9px;color:#9ca3af;">
+          Generated by ArchCalc on ${esc(new Date().toLocaleString())}. Calculations should be independently verified by a licensed professional before use in construction documents or code submissions.
+        </div>
+      </div>`;
+
+    closeReportModal();
+    window.print();
+  }
+
+  $("generateReportBtn").addEventListener("click", generateReport);
+
+  /* =========================================================
+     12. INIT
      ========================================================= */
   function init() {
     refreshUnitButtons();
