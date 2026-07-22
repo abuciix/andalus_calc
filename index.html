@@ -116,7 +116,7 @@
 
 <!-- App Lock overlay. Shown via CSS (html.locked) before first paint when a
      password is set and this browser session hasn't unlocked yet. -->
-<div id="lockOverlay" class="fixed inset-0 z-[100] bg-base items-center justify-center p-4">
+<div id="lockOverlay" class="fixed inset-0 z-[100] bg-base flex-col items-center justify-center p-4">
   <div class="card rounded-xl w-full max-w-sm p-7">
     <div class="flex items-center gap-2.5 mb-1">
       <span class="h-3 w-3 rounded-sm bg-accent shadow-[0_0_12px_rgba(62,207,142,0.7)]"></span>
@@ -130,6 +130,10 @@
     <button id="lock-forgot-btn" class="w-full mt-3 text-xs text-slate-500 hover:text-slate-300 transition">Forgot password? Reset lock</button>
     <p class="text-[11px] text-slate-600 mt-4 leading-relaxed">Resetting only removes the password requirement — your saved calculator data and settings are not affected.</p>
   </div>
+  <a id="andalus-link-lock" href="#" target="_blank" rel="noopener" class="flex items-center gap-2 mt-6 opacity-60 hover:opacity-100 transition">
+    <span class="text-[11px] text-slate-500">Built by</span>
+    <img src="icons/andalus-logo-full.svg" alt="Andalus Architecture" class="h-4 w-auto">
+  </a>
 </div>
 
 <div id="appRoot" class="flex min-h-screen">
@@ -275,6 +279,13 @@
 
     <div class="p-4 mt-2 text-[11px] text-slate-600 leading-relaxed hidden md:block">
       All values save automatically to this device. Adjust global code thresholds via <span class="text-slate-400">Code Settings</span> in the top bar.
+    </div>
+
+    <div class="px-4 pb-5 pt-2 border-t border-white/10 mt-2">
+      <a id="andalus-link-sidebar" href="#" target="_blank" rel="noopener" class="flex items-center gap-2 opacity-70 hover:opacity-100 transition">
+        <span class="text-[10px] text-slate-500 uppercase tracking-wide">Built by</span>
+        <img src="icons/andalus-logo-full.svg" alt="Andalus Architecture" class="h-4 w-auto">
+      </a>
     </div>
   </aside>
 
