@@ -4,6 +4,32 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ArchCalc: The Architect's Daily Computational Suite</title>
+<meta name="description" content="Dark-mode dashboard of architectural, zoning, BOQ, and cutting-stock optimization calculators.">
+<meta name="theme-color" content="#0c0f15">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ArchCalc">
+<script>
+  // Runs before first paint to avoid a flash of the unlocked app. Kept deliberately
+  // tiny and dependency-free — the real unlock logic lives in the main script below.
+  (function () {
+    try {
+      var lock = JSON.parse(localStorage.getItem("archcalc_lock_v1") || "null");
+      var unlocked = sessionStorage.getItem("archcalc_unlocked") === "1";
+      if (lock && lock.enabled && lock.hash && !unlocked) {
+        document.documentElement.classList.add("locked");
+      }
+    } catch (e) { /* localStorage unavailable — fail open rather than break the app */ }
+  })();
+</script>
+<style>
+  html.locked #appRoot { display: none !important; }
+  #lockOverlay { display: none; }
+  html.locked #lockOverlay { display: flex !important; }
+</style>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
   tailwind.config = {
@@ -43,12 +69,13 @@
   @keyframes fadeIn { from { opacity: 0; transform: translateY(4px);} to { opacity: 1; transform: translateY(0);} }
 
   .card { background: #151922; border: 1px solid #232a38; }
-  input[type=number], input[type=text], select {
+  input[type=number], input[type=text], input[type=password], input[type=date], select {
     background: #0c0f15; border: 1px solid #2a3140; color: #e6e9ef;
   }
-  input[type=number]:focus, input[type=text]:focus, select:focus {
+  input[type=number]:focus, input[type=text]:focus, input[type=password]:focus, input[type=date]:focus, select:focus {
     outline: none; border-color: #3ecf8e; box-shadow: 0 0 0 3px rgba(62,207,142,0.15);
   }
+  input[type=date]::-webkit-calendar-picker-indicator { filter: invert(0.7); cursor: pointer; }
   input[type=number]::-webkit-inner-spin-button { opacity: 1; }
 
   .status-badge { transition: all .2s ease; }
@@ -87,7 +114,25 @@
 </head>
 <body class="bg-base text-slate-200 min-h-screen">
 
-<div class="flex min-h-screen">
+<!-- App Lock overlay. Shown via CSS (html.locked) before first paint when a
+     password is set and this browser session hasn't unlocked yet. -->
+<div id="lockOverlay" class="fixed inset-0 z-[100] bg-base items-center justify-center p-4">
+  <div class="card rounded-xl w-full max-w-sm p-7">
+    <div class="flex items-center gap-2.5 mb-1">
+      <span class="h-3 w-3 rounded-sm bg-accent shadow-[0_0_12px_rgba(62,207,142,0.7)]"></span>
+      <h1 class="text-lg font-bold text-slate-50 tracking-tight">ArchCalc</h1>
+    </div>
+    <p class="text-xs text-slate-500 mb-6">This app is password-protected. Enter the password to continue.</p>
+    <label class="block text-xs font-semibold text-slate-400 mb-1.5">Password</label>
+    <input type="password" id="lock-password-input" class="w-full rounded-md px-3.5 py-2.5 text-sm" autocomplete="current-password">
+    <p id="lock-error" class="text-xs text-red-400 mt-2 hidden">Incorrect password. Try again.</p>
+    <button id="lock-unlock-btn" class="w-full mt-4 text-sm font-semibold bg-accent hover:brightness-110 rounded-md py-2.5 text-black transition">Unlock</button>
+    <button id="lock-forgot-btn" class="w-full mt-3 text-xs text-slate-500 hover:text-slate-300 transition">Forgot password? Reset lock</button>
+    <p class="text-[11px] text-slate-600 mt-4 leading-relaxed">Resetting only removes the password requirement — your saved calculator data and settings are not affected.</p>
+  </div>
+</div>
+
+<div id="appRoot" class="flex min-h-screen">
 
   <!-- Mobile top bar -->
   <div class="md:hidden fixed top-0 left-0 right-0 h-14 bg-panel border-b border-white/10 z-30 flex items-center justify-between px-4">
@@ -796,6 +841,33 @@
   </div>
 
   <div class="p-6 space-y-7">
+    <div class="space-y-4">
+      <div class="flex items-center justify-between">
+        <p class="text-xs font-bold uppercase tracking-wider text-slate-500">App Lock</p>
+        <label class="flex items-center gap-2 cursor-pointer select-none">
+          <span class="text-xs text-slate-400">Require password</span>
+          <input type="checkbox" id="lock-enable-toggle" class="h-4 w-4 rounded accent-accent">
+        </label>
+      </div>
+      <p id="lock-status-text" class="text-[11px] text-slate-600 -mt-2">Off — anyone with this device/link can open the app.</p>
+
+      <div id="lock-setup-fields" class="space-y-3 hidden">
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">New Password</label>
+          <input type="password" id="lock-new-password" class="w-full rounded-md px-3.5 py-2.5 text-sm" autocomplete="new-password">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">Confirm Password</label>
+          <input type="password" id="lock-confirm-password" class="w-full rounded-md px-3.5 py-2.5 text-sm" autocomplete="new-password">
+        </div>
+        <p id="lock-setup-error" class="text-xs text-red-400 hidden"></p>
+        <button id="lock-save-password-btn" class="w-full text-sm font-semibold bg-accent hover:brightness-110 rounded-md py-2.5 text-black transition">Set Password</button>
+      </div>
+
+      <button id="lock-change-password-btn" class="w-full text-xs font-semibold bg-panel2 hover:bg-panel border border-white/10 rounded-md py-2 text-slate-300 transition hidden">Change Password</button>
+      <p class="text-[11px] text-slate-600">This is a casual access gate, not real encryption — the password check runs in the browser, so it deters casual access but won't stop someone technical from reading the page source.</p>
+    </div>
+
     <div class="space-y-4">
       <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Report Details</p>
       <p class="text-[11px] text-slate-600 -mt-2">Used as the default header on every exported PDF report. Editable per-export.</p>
@@ -2549,7 +2621,96 @@
   $("generateReportBtn").addEventListener("click", generateReport);
 
   /* =========================================================
-     12. INIT
+     12. APP LOCK (casual access gate, not real encryption — the
+     password check runs client-side, so it deters casual access
+     but a technical user can read the page source to bypass it)
+     ========================================================= */
+  const LOCK_KEY = "archcalc_lock_v1";
+  const LOCK_SESSION_KEY = "archcalc_unlocked";
+
+  function loadLock() {
+    try { return JSON.parse(localStorage.getItem(LOCK_KEY)) || { enabled: false, hash: "" }; }
+    catch (e) { return { enabled: false, hash: "" }; }
+  }
+  function saveLock(lock) { localStorage.setItem(LOCK_KEY, JSON.stringify(lock)); }
+
+  async function sha256Hex(text) {
+    const bytes = new TextEncoder().encode(text);
+    const digest = await crypto.subtle.digest("SHA-256", bytes);
+    return Array.from(new Uint8Array(digest)).map(b => b.toString(16).padStart(2, "0")).join("");
+  }
+
+  function refreshLockSettingsUI() {
+    const lock = loadLock();
+    const hasPassword = !!(lock.enabled && lock.hash);
+    $("lock-enable-toggle").checked = hasPassword;
+    $("lock-status-text").textContent = hasPassword
+      ? "On — a password is required to open this app on a new browser session."
+      : "Off — anyone with this device/link can open the app.";
+    $("lock-change-password-btn").classList.toggle("hidden", !hasPassword);
+    if (!hasPassword) $("lock-setup-fields").classList.add("hidden");
+    $("lock-new-password").value = "";
+    $("lock-confirm-password").value = "";
+    $("lock-setup-error").classList.add("hidden");
+  }
+
+  $("lock-enable-toggle").addEventListener("change", () => {
+    if ($("lock-enable-toggle").checked) {
+      $("lock-setup-fields").classList.remove("hidden");
+      $("lock-new-password").focus();
+    } else {
+      saveLock({ enabled: false, hash: "" });
+      refreshLockSettingsUI();
+    }
+  });
+
+  $("lock-change-password-btn").addEventListener("click", () => {
+    $("lock-setup-fields").classList.remove("hidden");
+    $("lock-new-password").focus();
+  });
+
+  $("lock-save-password-btn").addEventListener("click", async () => {
+    const pw = $("lock-new-password").value;
+    const confirm = $("lock-confirm-password").value;
+    const err = $("lock-setup-error");
+    if (pw.length < 4) { err.textContent = "Password must be at least 4 characters."; err.classList.remove("hidden"); return; }
+    if (pw !== confirm) { err.textContent = "Passwords do not match."; err.classList.remove("hidden"); return; }
+    const hash = await sha256Hex(pw);
+    saveLock({ enabled: true, hash });
+    // The person setting the password is, by definition, already authenticated
+    // for this session — don't immediately lock them out of their own app.
+    sessionStorage.setItem(LOCK_SESSION_KEY, "1");
+    refreshLockSettingsUI();
+  });
+
+  async function attemptUnlock() {
+    const lock = loadLock();
+    const input = $("lock-password-input");
+    const hash = await sha256Hex(input.value);
+    if (hash === lock.hash) {
+      sessionStorage.setItem(LOCK_SESSION_KEY, "1");
+      document.documentElement.classList.remove("locked");
+      $("lock-error").classList.add("hidden");
+      input.value = "";
+    } else {
+      $("lock-error").classList.remove("hidden");
+      input.focus();
+      input.select();
+    }
+  }
+  $("lock-unlock-btn").addEventListener("click", attemptUnlock);
+  $("lock-password-input").addEventListener("keydown", (e) => { if (e.key === "Enter") attemptUnlock(); });
+  $("lock-forgot-btn").addEventListener("click", () => {
+    saveLock({ enabled: false, hash: "" });
+    sessionStorage.setItem(LOCK_SESSION_KEY, "1");
+    document.documentElement.classList.remove("locked");
+    refreshLockSettingsUI();
+  });
+
+  refreshLockSettingsUI();
+
+  /* =========================================================
+     13. INIT
      ========================================================= */
   function init() {
     refreshUnitButtons();
@@ -2562,6 +2723,15 @@
   }
 
   init();
+
+  // PWA install support. Silently no-ops on file:// or sandboxed/non-HTTPS
+  // contexts where service workers aren't permitted — this app works fine
+  // without it, offline caching is a progressive enhancement only.
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("sw.js").catch(() => { /* not installable in this context */ });
+    });
+  }
 })();
 </script>
 </body>
