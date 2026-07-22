@@ -114,6 +114,10 @@
             <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18M3 12h18" stroke-dasharray="2 3"/><circle cx="12" cy="12" r="9"/></svg>
             Open Space Ratio
           </button>
+          <button data-view="netgross" class="nav-link w-full text-left px-3 py-2.5 rounded-r-md border-l-2 border-transparent text-sm font-medium text-slate-300 flex items-center gap-2.5">
+            <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="1"/><rect x="7" y="7" width="10" height="10" rx="1"/></svg>
+            Net-to-Gross Efficiency
+          </button>
         </div>
       </div>
 
@@ -145,6 +149,48 @@
           <button data-view="uvalue" class="nav-link w-full text-left px-3 py-2.5 rounded-r-md border-l-2 border-transparent text-sm font-medium text-slate-300 flex items-center gap-2.5">
             <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
             U-Value / R-Value
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <p class="px-3 text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Ergonomics &amp; Photometrics</p>
+        <div class="space-y-1">
+          <button data-view="lumen" class="nav-link w-full text-left px-3 py-2.5 rounded-r-md border-l-2 border-transparent text-sm font-medium text-slate-300 flex items-center gap-2.5">
+            <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path stroke-linecap="round" d="M12 2v2M12 20v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2 12h2M20 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>
+            Lumen Method
+          </button>
+          <button data-view="sabine" class="nav-link w-full text-left px-3 py-2.5 rounded-r-md border-l-2 border-transparent text-sm font-medium text-slate-300 flex items-center gap-2.5">
+            <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10v4h4l5 5V5L7 10H3z"/><path stroke-linecap="round" d="M16 9a4 4 0 010 6M19 6a8 8 0 010 12"/></svg>
+            Sabine Acoustics
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <p class="px-3 text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">BOQ &amp; Takeoff</p>
+        <div class="space-y-1">
+          <button data-view="rebar" class="nav-link w-full text-left px-3 py-2.5 rounded-r-md border-l-2 border-transparent text-sm font-medium text-slate-300 flex items-center gap-2.5">
+            <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M4 20c4-8 4-12 8-16M20 4c-4 8-4 12-8 16"/></svg>
+            Rebar Tonnage
+          </button>
+          <button data-view="concrete" class="nav-link w-full text-left px-3 py-2.5 rounded-r-md border-l-2 border-transparent text-sm font-medium text-slate-300 flex items-center gap-2.5">
+            <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2l7 4v6c0 5-3 8-7 10-4-2-7-5-7-10V6l7-4z"/></svg>
+            Dry-to-Wet Concrete
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <p class="px-3 text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Layout &amp; Cutting Optimization</p>
+        <div class="space-y-1">
+          <button data-view="mdfnest" class="nav-link w-full text-left px-3 py-2.5 rounded-r-md border-l-2 border-transparent text-sm font-medium text-slate-300 flex items-center gap-2.5">
+            <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="1"/><path d="M3 12h9M12 4v16M12 12h9"/></svg>
+            MDF Sheet Nesting
+          </button>
+          <button data-view="rhsnest" class="nav-link w-full text-left px-3 py-2.5 rounded-r-md border-l-2 border-transparent text-sm font-medium text-slate-300 flex items-center gap-2.5">
+            <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><rect x="2" y="9" width="20" height="6" rx="1"/><path d="M8 9v6M15 9v6"/></svg>
+            RHS Bar Nesting
           </button>
         </div>
       </div>
@@ -439,6 +485,269 @@
         </div>
       </section>
 
+      <!-- Net-to-Gross -->
+      <section id="view-netgross" class="view">
+        <div class="card rounded-xl p-5 md:p-7">
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Gross Building Area — GBA (<span class="unit-area">sq ft</span>)</label>
+              <input type="number" id="ng-gba" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. 20000">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Net Assignable Area — NAA (<span class="unit-area">sq ft</span>)</label>
+              <input type="number" id="ng-naa" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. 15000">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Target Efficiency (%)</label>
+              <input type="number" id="ng-good" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="1">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Min Acceptable Efficiency (%)</label>
+              <input type="number" id="ng-warn" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="1">
+            </div>
+          </div>
+        </div>
+
+        <div id="netgross-result" class="mt-5"></div>
+
+        <div class="card rounded-xl p-5 md:p-7 mt-5">
+          <h3 class="text-sm font-bold text-slate-300 mb-2">Formula Reference</h3>
+          <p class="mono text-xs text-slate-500">Efficiency (%) = (Net Assignable Area ÷ Gross Building Area) × 100 &nbsp;|&nbsp; Form Factor = 1 ÷ Efficiency</p>
+        </div>
+      </section>
+
+      <!-- Lumen Method -->
+      <section id="view-lumen" class="view">
+        <div class="card rounded-xl p-5 md:p-7">
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Target Illuminance E (lux)</label>
+              <input type="number" id="lm-e" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. 300">
+              <p class="text-[11px] text-slate-600 mt-1">1 footcandle ≈ 10.76 lux</p>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Room Area A (<span class="unit-area">sq ft</span>)</label>
+              <input type="number" id="lm-a" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. 200">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Luminaire Output F (lumens/fixture)</label>
+              <input type="number" id="lm-f" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. 3500">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Utilization Factor UF (0–1)</label>
+              <input type="number" id="lm-uf" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="0.01" placeholder="e.g. 0.5">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Light Loss Factor LLF (0–1)</label>
+              <input type="number" id="lm-llf" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="0.01" placeholder="e.g. 0.8">
+            </div>
+          </div>
+        </div>
+
+        <div id="lumen-result" class="mt-5"></div>
+
+        <div class="card rounded-xl p-5 md:p-7 mt-5">
+          <h3 class="text-sm font-bold text-slate-300 mb-2">Formula Reference</h3>
+          <p class="mono text-xs text-slate-500">N = (E × A) ÷ (F × UF × LLF) &nbsp;|&nbsp; N rounded up to the next whole fixture</p>
+        </div>
+      </section>
+
+      <!-- Sabine Acoustics -->
+      <section id="view-sabine" class="view">
+        <div class="card rounded-xl p-5 md:p-7">
+          <div class="mb-4">
+            <label class="block text-xs font-semibold text-slate-400 mb-1.5">Room Volume V (<span class="unit-vol">cu ft</span>)</label>
+            <input type="number" id="sab-volume" class="w-full sm:w-1/2 rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. 4000">
+          </div>
+          <h3 class="text-sm font-bold text-slate-300 mb-3">Absorptive Surfaces</h3>
+          <div class="space-y-3" id="sabine-rows">
+            <div class="grid sm:grid-cols-3 gap-3">
+              <input type="text" class="sab-label w-full rounded-md px-3.5 py-2.5 text-sm sm:col-span-1" placeholder="Material (e.g. Carpet)" value="Ceiling">
+              <input type="number" class="sab-area w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="Area (sq ft)">
+              <input type="number" class="sab-coef w-full rounded-md px-3.5 py-2.5 text-sm" step="0.01" placeholder="Absorption Coef. α (0–1)">
+            </div>
+            <div class="grid sm:grid-cols-3 gap-3">
+              <input type="text" class="sab-label w-full rounded-md px-3.5 py-2.5 text-sm sm:col-span-1" placeholder="Material (e.g. Carpet)" value="Floor">
+              <input type="number" class="sab-area w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="Area (sq ft)">
+              <input type="number" class="sab-coef w-full rounded-md px-3.5 py-2.5 text-sm" step="0.01" placeholder="Absorption Coef. α (0–1)">
+            </div>
+            <div class="grid sm:grid-cols-3 gap-3">
+              <input type="text" class="sab-label w-full rounded-md px-3.5 py-2.5 text-sm sm:col-span-1" placeholder="Material (e.g. Carpet)" value="Walls">
+              <input type="number" class="sab-area w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="Area (sq ft)">
+              <input type="number" class="sab-coef w-full rounded-md px-3.5 py-2.5 text-sm" step="0.01" placeholder="Absorption Coef. α (0–1)">
+            </div>
+            <div class="grid sm:grid-cols-3 gap-3">
+              <input type="text" class="sab-label w-full rounded-md px-3.5 py-2.5 text-sm sm:col-span-1" placeholder="Material" value="">
+              <input type="number" class="sab-area w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="Area (sq ft)">
+              <input type="number" class="sab-coef w-full rounded-md px-3.5 py-2.5 text-sm" step="0.01" placeholder="Absorption Coef. α (0–1)">
+            </div>
+            <div class="grid sm:grid-cols-3 gap-3">
+              <input type="text" class="sab-label w-full rounded-md px-3.5 py-2.5 text-sm sm:col-span-1" placeholder="Material" value="">
+              <input type="number" class="sab-area w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="Area (sq ft)">
+              <input type="number" class="sab-coef w-full rounded-md px-3.5 py-2.5 text-sm" step="0.01" placeholder="Absorption Coef. α (0–1)">
+            </div>
+            <div class="grid sm:grid-cols-3 gap-3">
+              <input type="text" class="sab-label w-full rounded-md px-3.5 py-2.5 text-sm sm:col-span-1" placeholder="Material" value="">
+              <input type="number" class="sab-area w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="Area (sq ft)">
+              <input type="number" class="sab-coef w-full rounded-md px-3.5 py-2.5 text-sm" step="0.01" placeholder="Absorption Coef. α (0–1)">
+            </div>
+          </div>
+        </div>
+
+        <div id="sabine-result" class="mt-5"></div>
+
+        <div class="card rounded-xl p-5 md:p-7 mt-5">
+          <h3 class="text-sm font-bold text-slate-300 mb-2">Formula Reference</h3>
+          <p class="mono text-xs text-slate-500">RT60 = (K × V) ÷ Σ(Area × α) &nbsp;|&nbsp; K = 0.161 (metric, V in m³) or 0.049 (imperial, V in ft³)</p>
+        </div>
+      </section>
+
+      <!-- Rebar Tonnage -->
+      <section id="view-rebar" class="view">
+        <div class="card rounded-xl p-5 md:p-7">
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Bar Diameter D (mm)</label>
+              <input type="number" id="rb-dia" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. 16">
+              <p class="text-[11px] text-slate-600 mt-1">Rebar diameter is always specified in mm, regardless of unit mode.</p>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Length per Bar (<span class="unit-bar">ft</span>)</label>
+              <input type="number" id="rb-length" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. 12">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Quantity of Bars</label>
+              <input type="number" id="rb-qty" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. 40">
+            </div>
+          </div>
+        </div>
+
+        <div id="rebar-result" class="mt-5"></div>
+
+        <div class="card rounded-xl p-5 md:p-7 mt-5">
+          <h3 class="text-sm font-bold text-slate-300 mb-2">Formula Reference</h3>
+          <p class="mono text-xs text-slate-500">Unit Weight (kg/m) = D² ÷ 162 &nbsp;|&nbsp; Total Weight = Unit Weight × Total Length</p>
+        </div>
+      </section>
+
+      <!-- Dry-to-Wet Concrete -->
+      <section id="view-concrete" class="view">
+        <div class="card rounded-xl p-5 md:p-7">
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Wet Concrete Volume (<span class="unit-vol">cu ft</span>)</label>
+              <input type="number" id="cc-volume" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. 100">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Dry Volume Factor</label>
+              <input type="number" id="cc-factor" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="0.01">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Mix Ratio — Cement</label>
+              <input type="number" id="cc-cement" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. 1" value="1">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Mix Ratio — Sand</label>
+              <input type="number" id="cc-sand" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. 2" value="2">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Mix Ratio — Aggregate</label>
+              <input type="number" id="cc-agg" class="w-full rounded-md px-3.5 py-2.5 text-sm" placeholder="e.g. 4" value="4">
+            </div>
+          </div>
+        </div>
+
+        <div id="concrete-result" class="mt-5"></div>
+
+        <div class="card rounded-xl p-5 md:p-7 mt-5">
+          <h3 class="text-sm font-bold text-slate-300 mb-2">Formula Reference</h3>
+          <p class="mono text-xs text-slate-500">Dry Volume = Wet Volume × 1.54 &nbsp;|&nbsp; Constituent Volume = Dry Volume × (Ratio Part ÷ Sum of Parts)</p>
+        </div>
+      </section>
+
+      <!-- MDF Sheet Nesting -->
+      <section id="view-mdfnest" class="view">
+        <div class="card rounded-xl p-5 md:p-7">
+          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Sheet Length (<span class="unit-panel">in</span>)</label>
+              <input type="number" id="mdf-sheet-l" class="w-full rounded-md px-3.5 py-2.5 text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Sheet Width (<span class="unit-panel">in</span>)</label>
+              <input type="number" id="mdf-sheet-w" class="w-full rounded-md px-3.5 py-2.5 text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Kerf Allowance (<span class="unit-panel">in</span>)</label>
+              <input type="number" id="mdf-kerf" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="0.01">
+            </div>
+            <div class="flex items-end pb-2.5">
+              <label class="flex items-center gap-2.5 text-xs font-semibold text-slate-400 cursor-pointer select-none">
+                <input type="checkbox" id="mdf-grain-lock" class="h-4 w-4 rounded accent-accent">
+                Lock Grain Direction (no rotation)
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="card rounded-xl p-5 md:p-7 mt-5">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-sm font-bold text-slate-300">Required Pieces</h3>
+            <button id="mdf-add-row" type="button" class="text-xs font-semibold bg-panel2 hover:bg-panel border border-white/10 rounded-md px-3 py-1.5 text-accent transition">+ Add Piece Type</button>
+          </div>
+          <div class="grid sm:grid-cols-12 gap-2 mb-1.5 px-1 text-[11px] font-semibold text-slate-500 uppercase tracking-wide">
+            <span class="sm:col-span-4">Label</span>
+            <span class="sm:col-span-3">Width</span>
+            <span class="sm:col-span-3">Height</span>
+            <span class="sm:col-span-1">Qty</span>
+          </div>
+          <div id="mdf-rows" class="space-y-2"></div>
+        </div>
+
+        <div id="mdfnest-result" class="mt-5"></div>
+
+        <div class="card rounded-xl p-5 md:p-7 mt-5">
+          <h3 class="text-sm font-bold text-slate-300 mb-2">Algorithm Reference</h3>
+          <p class="mono text-xs text-slate-500">Guillotine best-area-fit bin packing, shorter-leftover-axis split rule, heuristic FFD ordering by descending piece area. Not guaranteed globally optimal (NP-hard) but strictly overlap-free and boundary-safe.</p>
+        </div>
+      </section>
+
+      <!-- RHS Bar Nesting -->
+      <section id="view-rhsnest" class="view">
+        <div class="card rounded-xl p-5 md:p-7">
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Stock Bar Length (<span class="unit-bar">ft</span>)</label>
+              <input type="number" id="rhs-stock-length" class="w-full rounded-md px-3.5 py-2.5 text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1.5">Kerf Allowance (<span class="unit-panel">in</span>)</label>
+              <input type="number" id="rhs-kerf" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="0.01">
+            </div>
+          </div>
+        </div>
+
+        <div class="card rounded-xl p-5 md:p-7 mt-5">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-sm font-bold text-slate-300">Required Cut Lengths</h3>
+            <button id="rhs-add-row" type="button" class="text-xs font-semibold bg-panel2 hover:bg-panel border border-white/10 rounded-md px-3 py-1.5 text-accent transition">+ Add Cut Length</button>
+          </div>
+          <div class="grid sm:grid-cols-12 gap-2 mb-1.5 px-1 text-[11px] font-semibold text-slate-500 uppercase tracking-wide">
+            <span class="sm:col-span-5">Label</span>
+            <span class="sm:col-span-4">Length</span>
+            <span class="sm:col-span-2">Qty</span>
+          </div>
+          <div id="rhs-rows" class="space-y-2"></div>
+        </div>
+
+        <div id="rhsnest-result" class="mt-5"></div>
+
+        <div class="card rounded-xl p-5 md:p-7 mt-5">
+          <h3 class="text-sm font-bold text-slate-300 mb-2">Algorithm Reference</h3>
+          <p class="mono text-xs text-slate-500">First-Fit-Decreasing (FFD) 1D bin packing. Kerf reserved between consecutive pieces on the same bar (n pieces ⇒ n−1 internal kerfs). Not guaranteed globally optimal (NP-hard) but strictly within-bar-safe.</p>
+        </div>
+      </section>
+
     </div>
   </main>
 </div>
@@ -547,6 +856,80 @@
       </div>
     </div>
 
+    <div class="space-y-4">
+      <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Spatial Metrics</p>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">Net-to-Gross Target (%)</label>
+          <input type="number" id="set-netgross-good" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="1">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">Net-to-Gross Min (%)</label>
+          <input type="number" id="set-netgross-warn" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="1">
+        </div>
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Ergonomics &amp; Photometrics</p>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">RT60 Target Min (s)</label>
+          <input type="number" id="set-rt60-min" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="0.1">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">RT60 Target Max (s)</label>
+          <input type="number" id="set-rt60-max" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="0.1">
+        </div>
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <p class="text-xs font-bold uppercase tracking-wider text-slate-500">BOQ &amp; Takeoff</p>
+      <div>
+        <label class="block text-xs text-slate-400 mb-1.5">Default Dry Volume Factor</label>
+        <input type="number" id="set-concrete-factor" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="0.01">
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Layout &amp; Cutting Optimization</p>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">Default Sheet Length (<span class="unit-panel">in</span>)</label>
+          <input type="number" id="set-sheet-length" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="1">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">Default Sheet Width (<span class="unit-panel">in</span>)</label>
+          <input type="number" id="set-sheet-width" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="1">
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">Default MDF Kerf (<span class="unit-panel">in</span>)</label>
+          <input type="number" id="set-mdf-kerf" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="0.01">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">MDF Utilization Target (%)</label>
+          <input type="number" id="set-mdf-util-good" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="1">
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">Default RHS Stock Length (<span class="unit-bar">ft</span>)</label>
+          <input type="number" id="set-rhs-stock" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="0.1">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">Default RHS Kerf (<span class="unit-panel">in</span>)</label>
+          <input type="number" id="set-rhs-kerf" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="0.01">
+        </div>
+      </div>
+      <div>
+        <label class="block text-xs text-slate-400 mb-1.5">RHS Max Acceptable Scrap (%)</label>
+        <input type="number" id="set-rhs-scrap-warn" class="w-full rounded-md px-3.5 py-2.5 text-sm" step="1">
+      </div>
+    </div>
+
     <div class="pt-2 space-y-2">
       <button id="resetSettingsBtn" class="w-full text-sm font-semibold bg-panel2 hover:bg-red-500/10 hover:text-red-400 border border-white/10 hover:border-red-500/30 rounded-md py-2.5 text-slate-300 transition">Reset to Default Codes</button>
       <p class="text-[11px] text-slate-600 text-center">Changes save automatically and apply instantly across all calculators.</p>
@@ -577,7 +960,31 @@
     wwrMin: 20,
     wwrMax: 40,
     uvRoofTarget: 0.05,
-    uvWallTarget: 0.08
+    uvWallTarget: 0.08,
+
+    // -- Layout & Cutting Optimization --
+    sheetLengthIn: 96,      // 8 ft standard MDF/panel sheet, canonical inches
+    sheetWidthIn: 48,       // 4 ft
+    kerfMdfIn: 0.125,       // 1/8" typical panel-saw blade kerf
+    mdfUtilGoodPct: 80,
+    mdfUtilWarnPct: 65,
+    stockBarLengthM: 6,     // 6 m commercial RHS bar stock, canonical meters
+    kerfRhsMm: 3,           // typical cold-saw/bandsaw kerf, canonical mm
+    rhsScrapGoodPct: 10,
+    rhsScrapWarnPct: 20,
+
+    // -- Spatial Metrics --
+    netGrossGoodPct: 80,
+    netGrossWarnPct: 70,
+
+    // -- Interior Ergonomics & Photometrics --
+    lumenDefaultUF: 0.5,
+    lumenDefaultLLF: 0.8,
+    rt60TargetMin: 0.6,
+    rt60TargetMax: 1.2,
+
+    // -- BOQ Tonnage & Takeoff --
+    concreteDryFactor: 1.54
   };
 
   const STORAGE_KEY = "archcalc_settings_v1";
@@ -607,6 +1014,8 @@
     mToFt: v => v / 0.3048,
     inToCm: v => v * 2.54,
     cmToIn: v => v / 2.54,
+    inToMm: v => v * 25.4,
+    mmToIn: v => v / 25.4,
     sqftToSqm: v => v * 0.092903,
     sqmToSqft: v => v / 0.092903
   };
@@ -633,7 +1042,14 @@
     stairs: { title: "Stair Comfort Engine", sub: "Blondel's Rule ergonomic safety envelope for stairs." },
     occupant: { title: "Occupant Load Validator", sub: "Maximum occupancy and required means-of-egress width." },
     wwr: { title: "Window-to-Wall Ratio", sub: "Energy-efficiency envelope glazing ratio." },
-    uvalue: { title: "U-Value / R-Value Converter", sub: "Aggregate thermal transmittance of stacked assemblies." }
+    uvalue: { title: "U-Value / R-Value Converter", sub: "Aggregate thermal transmittance of stacked assemblies." },
+    netgross: { title: "Net-to-Gross Efficiency", sub: "Spatial efficiency of assignable area within gross building area." },
+    lumen: { title: "Lumen Method", sub: "Artificial lighting layout — required luminaire count." },
+    sabine: { title: "Sabine Acoustic Formula", sub: "Multi-material reverberation time (RT60) calculator." },
+    rebar: { title: "Rebar Tonnage Calculator", sub: "Mass-per-meter takeoff for reinforcement bar schedules." },
+    concrete: { title: "Dry-to-Wet Concrete Conversion", sub: "Dry material constituents from a wet mix design." },
+    mdfnest: { title: "2D Sheet Nesting (Guillotine)", sub: "Panel cutting-stock optimization with kerf and grain constraints." },
+    rhsnest: { title: "1D RHS Bar Nesting", sub: "Linear cutting-stock optimization against commercial bar stock." }
   };
 
   function setActiveView(id) {
@@ -700,16 +1116,58 @@
     });
     document.querySelectorAll(".unit-len").forEach(el => { el.textContent = settings.unit === "imperial" ? "in" : "cm"; });
     document.querySelectorAll(".unit-area").forEach(el => { el.textContent = settings.unit === "imperial" ? "sq ft" : "sq m"; });
+    document.querySelectorAll(".unit-panel").forEach(el => { el.textContent = settings.unit === "imperial" ? "in" : "mm"; });
+    document.querySelectorAll(".unit-bar").forEach(el => { el.textContent = settings.unit === "imperial" ? "ft" : "m"; });
+    document.querySelectorAll(".unit-vol").forEach(el => { el.textContent = settings.unit === "imperial" ? "cu ft" : "cu m"; });
     document.getElementById("ramp-max-label").textContent = "1:" + round2(settings.rampMaxRatio);
+  }
+
+  // Panel-scale (in<->mm) and bar-scale (ft<->m) calculator input fields whose typed
+  // VALUE must be converted in place when the global unit toggles, or the number would
+  // silently be re-interpreted in the new unit (e.g. "2440" staying "2440" but meaning
+  // inches instead of mm). Dimensionless/ratio fields elsewhere don't need this.
+  const PANEL_VALUE_FIELDS = ["mdf-sheet-l", "mdf-sheet-w", "mdf-kerf"];
+  const PANEL_KERF_MM_VALUE_FIELDS = ["rhs-kerf"];
+  const BAR_VALUE_FIELDS = ["rhs-stock-length"];
+
+  function convertDisplayedValuesOnUnitToggle(fromUnit, toUnit) {
+    if (fromUnit === toUnit) return;
+    PANEL_VALUE_FIELDS.forEach(id => {
+      const el = $(id);
+      const v = parseFloat(el.value);
+      if (!isNaN(v)) el.value = round2(toUnit === "metric" ? CONV.inToMm(v) : CONV.mmToIn(v));
+    });
+    PANEL_KERF_MM_VALUE_FIELDS.forEach(id => {
+      const el = $(id);
+      const v = parseFloat(el.value);
+      if (!isNaN(v)) el.value = round2(toUnit === "imperial" ? CONV.mmToIn(v) : CONV.inToMm(v));
+    });
+    BAR_VALUE_FIELDS.forEach(id => {
+      const el = $(id);
+      const v = parseFloat(el.value);
+      if (!isNaN(v)) el.value = round2(toUnit === "imperial" ? CONV.mToFt(v) : CONV.ftToM(v));
+    });
+    document.querySelectorAll(".mdf-f-w, .mdf-f-h").forEach(el => {
+      const v = parseFloat(el.value);
+      if (!isNaN(v)) el.value = round2(toUnit === "metric" ? CONV.inToMm(v) : CONV.mmToIn(v));
+    });
+    document.querySelectorAll(".rhs-f-length").forEach(el => {
+      const v = parseFloat(el.value);
+      if (!isNaN(v)) el.value = round2(toUnit === "imperial" ? CONV.mToFt(v) : CONV.ftToM(v));
+    });
   }
 
   unitBtns.forEach(btn => {
     btn.addEventListener("click", () => {
       if (btn.dataset.unit === settings.unit) return;
+      const fromUnit = settings.unit;
+      convertDisplayedValuesOnUnitToggle(fromUnit, btn.dataset.unit);
       settings.unit = btn.dataset.unit;
       saveSettings();
       refreshUnitButtons();
       populateSettingsForm();
+      saveMdfRows();
+      saveRhsRows();
       recalcAll();
     });
   });
@@ -929,15 +1387,20 @@
     if (isNaN(factor) || factor <= 0) return errorState(out, "Occupant load factor must be greater than zero.");
 
     const occupants = Math.ceil(area / factor);
-    const stairWidth = round2(occupants * settings.exitStairFactor);
-    const levelWidth = round2(occupants * settings.exitLevelFactor);
+    // settings.exitStairFactor / exitLevelFactor are canonical inches-per-person (per
+    // spec: 0.2 in = 5.08 mm); convert to the displayed unit before multiplying so the
+    // egress width is correct in both imperial and metric mode.
+    const stairFactorDisplay = settings.unit === "imperial" ? settings.exitStairFactor : CONV.inToCm(settings.exitStairFactor);
+    const levelFactorDisplay = settings.unit === "imperial" ? settings.exitLevelFactor : CONV.inToCm(settings.exitLevelFactor);
+    const stairWidth = round2(occupants * stairFactorDisplay);
+    const levelWidth = round2(occupants * levelFactorDisplay);
     const unitLabel = settings.unit === "imperial" ? "in" : "cm";
 
     renderStatus(out, "green", "Occupant load and required egress width calculated", [
       { label: "Maximum Occupant Load", value: occupants + " persons" },
       { label: "Load Factor Used", value: factor + " " + (settings.unit === "imperial" ? "sq ft" : "sq m") + "/person" },
-      { label: "Min Total Exit Width (Stairs)", value: stairWidth.toFixed(2) + " " + unitLabel, note: `${settings.exitStairFactor} ${unitLabel}/person` },
-      { label: "Min Total Exit Width (Level/Doors)", value: levelWidth.toFixed(2) + " " + unitLabel, note: `${settings.exitLevelFactor} ${unitLabel}/person` }
+      { label: "Min Total Exit Width (Stairs)", value: stairWidth.toFixed(2) + " " + unitLabel, note: `${round2(stairFactorDisplay)} ${unitLabel}/person` },
+      { label: "Min Total Exit Width (Level/Doors)", value: levelWidth.toFixed(2) + " " + unitLabel, note: `${round2(levelFactorDisplay)} ${unitLabel}/person` }
     ]);
   }
 
@@ -997,13 +1460,543 @@
 
   $("uvalue-target-type").addEventListener("change", calcUValue);
 
+  // ---- Net-to-Gross Efficiency ----
+  function calcNetGross() {
+    const gba = parseFloat($("ng-gba").value);
+    const naa = parseFloat($("ng-naa").value);
+    const good = parseFloat($("ng-good").value);
+    const warn = parseFloat($("ng-warn").value);
+    const out = $("netgross-result");
+    if (isNaN(gba) || isNaN(naa)) return neutralState(out);
+    if (gba === 0) return errorState(out, "Gross Building Area cannot be zero — division by zero.");
+    const eff = (naa / gba) * 100;
+    const goodT = isNaN(good) ? settings.netGrossGoodPct : good;
+    const warnT = isNaN(warn) ? settings.netGrossWarnPct : warn;
+    const formFactor = eff > 0 ? 100 / eff : NaN;
+
+    let level, title;
+    if (eff >= goodT) { level = "green"; title = "Net-to-gross efficiency meets the target"; }
+    else if (eff >= warnT) { level = "yellow"; title = "Net-to-gross efficiency is below target but acceptable"; }
+    else { level = "red"; title = "Net-to-gross efficiency falls below the minimum acceptable threshold"; }
+
+    renderStatus(out, level, title, [
+      { label: "Net-to-Gross Efficiency", value: round2(eff).toFixed(2) + "%" },
+      { label: "Form Factor (GBA ÷ NAA)", value: round2(formFactor).toFixed(2) },
+      { label: "Target / Min Acceptable", value: goodT.toFixed(2) + "% / " + warnT.toFixed(2) + "%" }
+    ]);
+  }
+
+  // ---- Lumen Method ----
+  function calcLumen() {
+    const E = parseFloat($("lm-e").value);
+    const A = parseFloat($("lm-a").value);
+    const F = parseFloat($("lm-f").value);
+    const UF = parseFloat($("lm-uf").value);
+    const LLF = parseFloat($("lm-llf").value);
+    const out = $("lumen-result");
+    if ([E, A, F, UF, LLF].some(v => isNaN(v))) return neutralState(out);
+    if (UF <= 0 || UF > 1 || LLF <= 0 || LLF > 1) return errorState(out, "Utilization Factor and Light Loss Factor must be between 0 and 1.");
+    if (F <= 0) return errorState(out, "Luminaire output must be greater than zero.");
+
+    const raw = (E * A) / (F * UF * LLF);
+    const N = Math.ceil(raw);
+
+    renderStatus(out, "green", "Required luminaire count calculated", [
+      { label: "Fixtures Required (N)", value: N + "", note: `Raw value ${round2(raw).toFixed(2)}, rounded up` },
+      { label: "Total Lumen Output Delivered", value: round2(N * F * UF * LLF).toFixed(2) + " lm" },
+      { label: "Design Illuminance Achieved", value: round2((N * F * UF * LLF) / A).toFixed(2) + " lux" }
+    ]);
+  }
+
+  // ---- Sabine Acoustics ----
+  function calcSabine() {
+    const V = parseFloat($("sab-volume").value);
+    const out = $("sabine-result");
+    const rows = [];
+    document.querySelectorAll("#sabine-rows > div").forEach(row => {
+      const area = parseFloat(row.querySelector(".sab-area").value);
+      const coef = parseFloat(row.querySelector(".sab-coef").value);
+      const label = row.querySelector(".sab-label").value || "Surface";
+      if (!isNaN(area) && !isNaN(coef)) rows.push({ label, area, coef });
+    });
+    if (isNaN(V) || rows.length === 0) return neutralState(out);
+    if (rows.some(r => r.coef < 0 || r.coef > 1)) return errorState(out, "Absorption coefficients must be between 0 and 1.");
+
+    const sumAA = rows.reduce((s, r) => s + r.area * r.coef, 0);
+    if (sumAA === 0) return errorState(out, "Total absorption cannot be zero — division by zero.");
+    const K = settings.unit === "imperial" ? 0.049 : 0.161;
+    const rt60 = (K * V) / sumAA;
+    const min = settings.rt60TargetMin, max = settings.rt60TargetMax;
+
+    let level, title;
+    if (rt60 >= min && rt60 <= max) { level = "green"; title = "RT60 falls within the target reverberation range"; }
+    else if (rt60 < min * 1.3 && rt60 > max * 0.7) { level = "yellow"; title = "RT60 is close to, but outside, the target range"; }
+    else { level = "red"; title = rt60 > max ? "RT60 is excessively reverberant for this space" : "RT60 is excessively dampened (over-absorptive) for this space"; }
+
+    renderStatus(out, level, title, [
+      { label: "Reverberation Time (RT60)", value: round2(rt60).toFixed(2) + " s", note: `Using K = ${K} (${settings.unit})` },
+      { label: "Total Absorption (Σ Area × α)", value: round2(sumAA).toFixed(2) + " sabins" },
+      { label: "Target Range", value: min.toFixed(2) + "s – " + max.toFixed(2) + "s" }
+    ]);
+  }
+
+  document.querySelectorAll("#sabine-rows input").forEach(el => el.addEventListener("input", calcSabine));
+
+  // ---- Rebar Tonnage ----
+  function calcRebar() {
+    const D = parseFloat($("rb-dia").value);
+    const Lraw = parseFloat($("rb-length").value);
+    const qty = parseFloat($("rb-qty").value);
+    const out = $("rebar-result");
+    if ([D, Lraw, qty].some(v => isNaN(v))) return neutralState(out);
+    if (D <= 0 || Lraw <= 0 || qty <= 0) return errorState(out, "Diameter, length, and quantity must all be greater than zero.");
+
+    const Lm = settings.unit === "imperial" ? CONV.ftToM(Lraw) : Lraw; // formula requires length in meters
+    const unitWeight = (D * D) / 162; // kg per meter
+    const totalLengthM = Lm * qty;
+    const totalWeightKg = unitWeight * totalLengthM;
+    const totalWeightT = totalWeightKg / 1000;
+
+    const lines = [
+      { label: "Unit Weight", value: round2(unitWeight).toFixed(2) + " kg/m" },
+      { label: "Total Length", value: round2(totalLengthM).toFixed(2) + " m" },
+      { label: "Total Weight", value: round2(totalWeightKg).toFixed(2) + " kg" },
+      { label: "Total Tonnage", value: round2(totalWeightT).toFixed(3) + " t" }
+    ];
+    if (settings.unit === "imperial") {
+      lines.push({ label: "Equivalent", value: round2(totalWeightKg * 2.20462).toFixed(2) + " lb", note: "For reference only — BOQ mass is reported in kg/t" });
+    }
+    renderStatus(out, "green", "Rebar mass takeoff calculated", lines);
+  }
+
+  // ---- Dry-to-Wet Concrete ----
+  function calcConcrete() {
+    const wet = parseFloat($("cc-volume").value);
+    const factor = parseFloat($("cc-factor").value) || settings.concreteDryFactor;
+    const c = parseFloat($("cc-cement").value);
+    const s = parseFloat($("cc-sand").value);
+    const a = parseFloat($("cc-agg").value);
+    const out = $("concrete-result");
+    if ([wet, c, s, a].some(v => isNaN(v))) return neutralState(out);
+    if (c < 0 || s < 0 || a < 0) return errorState(out, "Mix ratio parts cannot be negative.");
+    const totalParts = c + s + a;
+    if (totalParts === 0) return errorState(out, "Mix ratio parts cannot all be zero — division by zero.");
+
+    const dryVol = wet * factor;
+    const cementVol = dryVol * (c / totalParts);
+    const sandVol = dryVol * (s / totalParts);
+    const aggVol = dryVol * (a / totalParts);
+    const volUnit = settings.unit === "imperial" ? "cu ft" : "cu m";
+    // Standard bulk density of cement ≈ 1440 kg/m³; a 50 kg bag ≈ 0.0347 m³ (≈ 1.226 cu ft)
+    const cementM3 = settings.unit === "imperial" ? cementVol * 0.0283168 : cementVol;
+    const cementBags = (cementM3 * 1440) / 50;
+
+    renderStatus(out, "green", "Dry material constituents calculated", [
+      { label: "Dry Volume", value: round2(dryVol).toFixed(2) + " " + volUnit, note: `Wet Volume × ${factor}` },
+      { label: "Cement Volume", value: round2(cementVol).toFixed(2) + " " + volUnit, note: `≈ ${round2(cementBags).toFixed(1)} bags (50kg)` },
+      { label: "Sand Volume", value: round2(sandVol).toFixed(2) + " " + volUnit },
+      { label: "Aggregate Volume", value: round2(aggVol).toFixed(2) + " " + volUnit }
+    ]);
+  }
+
+  // ---- 2D Guillotine Sheet Nesting (MDF / panel stock) ----
+  // pieces: [{ id, w, h, qty, label }]  sheetW/sheetH/kerf: numbers (same unit)
+  // allowRotate: bool — false when grain direction is locked
+  // Heuristic guillotine best-area-fit bin packing. NOT guaranteed globally optimal
+  // (2D bin packing is NP-hard) — it is, by construction, strictly overlap-free and
+  // boundary-safe, and matches the theoretical minimum on exactly-tiling cases.
+  function guillotineNest(pieces, sheetW, sheetH, kerf, allowRotate) {
+    for (const p of pieces) {
+      const fitsAsIs = p.w <= sheetW && p.h <= sheetH;
+      const fitsRotated = allowRotate && p.h <= sheetW && p.w <= sheetH;
+      if (!fitsAsIs && !fitsRotated) {
+        throw new Error(`Piece "${p.label}" (${round2(p.w)} x ${round2(p.h)}) exceeds the sheet size (${round2(sheetW)} x ${round2(sheetH)}) and cannot be nested${allowRotate ? "" : " with grain direction locked"}.`);
+      }
+    }
+
+    const units = [];
+    pieces.forEach(p => {
+      for (let i = 0; i < p.qty; i++) units.push({ w: p.w, h: p.h, label: p.label });
+    });
+    units.sort((a, b) => (b.w * b.h) - (a.w * a.h));
+
+    const sheets = []; // each: { free: [{x,y,w,h}], placements: [{x,y,w,h,rotated,label}] }
+
+    function tryPlaceInSheet(sheet, unit) {
+      let best = null;
+      sheet.free.forEach((r, idx) => {
+        if (unit.w <= r.w && unit.h <= r.h) {
+          const leftover = r.w * r.h - unit.w * unit.h;
+          if (!best || leftover < best.leftover) best = { rectIdx: idx, x: r.x, y: r.y, usedW: unit.w, usedH: unit.h, rotated: false, leftover };
+        }
+        if (allowRotate && unit.h <= r.w && unit.w <= r.h) {
+          const leftover = r.w * r.h - unit.w * unit.h;
+          if (!best || leftover < best.leftover) best = { rectIdx: idx, x: r.x, y: r.y, usedW: unit.h, usedH: unit.w, rotated: true, leftover };
+        }
+      });
+      return best;
+    }
+
+    function guillotineSplit(freeRect, usedW, usedH, kerf) {
+      // Kerf is modeled as extra material consumed on the trailing (right/bottom) edges
+      // of the placed piece, guaranteeing >= kerf clearance before the next cut.
+      const effW = usedW + kerf;
+      const effH = usedH + kerf;
+      const rightW = freeRect.w - effW;
+      const bottomH = freeRect.h - effH;
+      const outRects = [];
+      // Shorter-leftover-axis rule: keep the larger remaining rectangle un-split.
+      if (rightW <= bottomH) {
+        if (bottomH > 0) outRects.push({ x: freeRect.x, y: freeRect.y + effH, w: freeRect.w, h: bottomH });
+        if (rightW > 0) outRects.push({ x: freeRect.x + effW, y: freeRect.y, w: rightW, h: Math.min(effH, freeRect.h) });
+      } else {
+        if (rightW > 0) outRects.push({ x: freeRect.x + effW, y: freeRect.y, w: rightW, h: freeRect.h });
+        if (bottomH > 0) outRects.push({ x: freeRect.x, y: freeRect.y + effH, w: Math.min(effW, freeRect.w), h: bottomH });
+      }
+      return outRects.filter(r => r.w > 1e-9 && r.h > 1e-9);
+    }
+
+    units.forEach(unit => {
+      let placed = false;
+      for (const sheet of sheets) {
+        const best = tryPlaceInSheet(sheet, unit);
+        if (best) {
+          const freeRect = sheet.free[best.rectIdx];
+          sheet.free.splice(best.rectIdx, 1);
+          sheet.free.push(...guillotineSplit(freeRect, best.usedW, best.usedH, kerf));
+          sheet.placements.push({ x: best.x, y: best.y, w: best.usedW, h: best.usedH, rotated: best.rotated, label: unit.label });
+          placed = true;
+          break;
+        }
+      }
+      if (!placed) {
+        const sheet = { free: [{ x: 0, y: 0, w: sheetW, h: sheetH }], placements: [] };
+        sheets.push(sheet);
+        const best = tryPlaceInSheet(sheet, unit);
+        const freeRect = sheet.free[best.rectIdx];
+        sheet.free.splice(best.rectIdx, 1);
+        sheet.free.push(...guillotineSplit(freeRect, best.usedW, best.usedH, kerf));
+        sheet.placements.push({ x: best.x, y: best.y, w: best.usedW, h: best.usedH, rotated: best.rotated, label: unit.label });
+      }
+    });
+
+    const netPieceArea = units.reduce((s, u) => s + u.w * u.h, 0);
+    const totalSheetArea = sheets.length * sheetW * sheetH;
+    return {
+      sheetCount: sheets.length,
+      sheets: sheets.map(s => s.placements),
+      netPieceArea,
+      totalSheetArea,
+      utilizationPct: totalSheetArea > 0 ? (netPieceArea / totalSheetArea) * 100 : 0
+    };
+  }
+
+  // ---- 1D FFD Bar Nesting (RHS / linear stock) ----
+  // pieces: [{ id, length, qty, label }]  stockLength/kerf: numbers (same unit)
+  // Heuristic First-Fit-Decreasing 1D bin packing. NOT guaranteed globally optimal
+  // (1D bin packing is NP-hard) — it matches the theoretical minimum on exactly-fitting
+  // cases and never overfills a bar.
+  function ffdNest1D(pieces, stockLength, kerf) {
+    for (const p of pieces) {
+      if (p.length > stockLength) {
+        throw new Error(`Piece "${p.label}" (${round2(p.length)}) exceeds the stock bar length (${round2(stockLength)}) and cannot be cut from a single bar.`);
+      }
+    }
+
+    const units = [];
+    pieces.forEach(p => {
+      for (let i = 0; i < p.qty; i++) units.push({ length: p.length, label: p.label });
+    });
+    units.sort((a, b) => b.length - a.length);
+
+    const bars = []; // each: { remaining, items: [{length,label}] }
+
+    units.forEach(unit => {
+      // Kerf is only charged BETWEEN pieces already on a bar (n items -> n-1 internal kerfs).
+      let placed = false;
+      for (const bar of bars) {
+        const required = unit.length + (bar.items.length > 0 ? kerf : 0);
+        if (bar.remaining >= required - 1e-9) {
+          bar.remaining -= required;
+          bar.items.push({ length: unit.length, label: unit.label });
+          placed = true;
+          break;
+        }
+      }
+      if (!placed) {
+        bars.push({ remaining: stockLength - unit.length, items: [{ length: unit.length, label: unit.label }] });
+      }
+    });
+
+    const totalStock = bars.length * stockLength;
+    const totalScrap = bars.reduce((s, b) => s + b.remaining, 0);
+    return {
+      barCount: bars.length,
+      bars: bars.map(b => ({ items: b.items, remnant: b.remaining })),
+      totalStock,
+      totalScrap,
+      scrapPct: totalStock > 0 ? (totalScrap / totalStock) * 100 : 0
+    };
+  }
+
+  // ---- MDF piece-row management ----
+  let mdfRowCounter = 0;
+  function addMdfRow(vals) {
+    vals = vals || {};
+    const id = "mdf-row-" + (mdfRowCounter++);
+    const div = document.createElement("div");
+    div.className = "mdf-piece-row grid sm:grid-cols-12 gap-2 items-center";
+    div.dataset.rowId = id;
+    div.innerHTML = `
+      <input type="text" class="piece-input mdf-f-label w-full rounded-md px-3 py-2 text-sm sm:col-span-4" placeholder="e.g. Door Panel" value="${vals.label || ""}">
+      <input type="number" class="piece-input mdf-f-w w-full rounded-md px-3 py-2 text-sm sm:col-span-3" placeholder="Width" value="${vals.w || ""}">
+      <input type="number" class="piece-input mdf-f-h w-full rounded-md px-3 py-2 text-sm sm:col-span-3" placeholder="Height" value="${vals.h || ""}">
+      <div class="flex items-center gap-1.5 sm:col-span-2">
+        <input type="number" class="piece-input mdf-f-qty w-full rounded-md px-3 py-2 text-sm" placeholder="Qty" value="${vals.qty || 1}">
+        <button type="button" class="mdf-remove-row text-slate-500 hover:text-red-400 p-1 shrink-0" aria-label="Remove piece">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
+      </div>`;
+    $("mdf-rows").appendChild(div);
+    div.querySelectorAll("input").forEach(el => el.addEventListener("input", () => { saveMdfRows(); calcMDF(); }));
+    div.querySelector(".mdf-remove-row").addEventListener("click", () => { div.remove(); saveMdfRows(); calcMDF(); });
+  }
+  $("mdf-add-row").addEventListener("click", () => { addMdfRow(); saveMdfRows(); calcMDF(); });
+
+  function readMdfRows() {
+    return Array.from(document.querySelectorAll(".mdf-piece-row")).map((row, idx) => ({
+      id: idx,
+      label: row.querySelector(".mdf-f-label").value || ("Piece " + (idx + 1)),
+      w: parseFloat(row.querySelector(".mdf-f-w").value),
+      h: parseFloat(row.querySelector(".mdf-f-h").value),
+      qty: parseInt(row.querySelector(".mdf-f-qty").value, 10)
+    }));
+  }
+
+  const MDF_ROWS_KEY = "archcalc_mdf_rows_v1";
+  function saveMdfRows() {
+    const data = Array.from(document.querySelectorAll(".mdf-piece-row")).map(row => ({
+      label: row.querySelector(".mdf-f-label").value,
+      w: row.querySelector(".mdf-f-w").value,
+      h: row.querySelector(".mdf-f-h").value,
+      qty: row.querySelector(".mdf-f-qty").value
+    }));
+    localStorage.setItem(MDF_ROWS_KEY, JSON.stringify(data));
+  }
+  function loadMdfRows() {
+    try {
+      const raw = localStorage.getItem(MDF_ROWS_KEY);
+      const data = raw ? JSON.parse(raw) : null;
+      if (data && data.length) data.forEach(addMdfRow);
+      else { addMdfRow({ label: "Door Panel", w: 24, h: 80, qty: 2 }); addMdfRow({ label: "Shelf", w: 30, h: 12, qty: 4 }); }
+    } catch (e) { addMdfRow(); }
+  }
+
+  function renderNestingCanvas(sheetW, sheetH, placements, container) {
+    const maxPxW = 360;
+    const scale = maxPxW / sheetW;
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.round(sheetW * scale);
+    canvas.height = Math.round(sheetH * scale);
+    canvas.className = "rounded-md border border-white/10 bg-[#0c0f15]";
+    const ctx = canvas.getContext("2d");
+    const palette = ["#3ecf8e", "#38bdf8", "#f59e0b", "#f472b6", "#a78bfa", "#34d399", "#fb923c", "#60a5fa"];
+    placements.forEach((p, i) => {
+      ctx.fillStyle = palette[i % palette.length] + "cc";
+      ctx.strokeStyle = "#0c0f15";
+      ctx.lineWidth = 1;
+      const x = p.x * scale, y = p.y * scale, w = p.w * scale, h = p.h * scale;
+      ctx.fillRect(x, y, w, h);
+      ctx.strokeRect(x, y, w, h);
+      if (w > 30 && h > 14) {
+        ctx.fillStyle = "#0c0f15";
+        ctx.font = "10px monospace";
+        const text = p.label + (p.rotated ? " ↻" : "");
+        ctx.fillText(text.length > 14 ? text.slice(0, 13) + "…" : text, x + 3, y + 12);
+      }
+    });
+    container.appendChild(canvas);
+  }
+
+  function calcMDF() {
+    const sheetLraw = parseFloat($("mdf-sheet-l").value);
+    const sheetWraw = parseFloat($("mdf-sheet-w").value);
+    const kerfRaw = parseFloat($("mdf-kerf").value);
+    const grainLock = $("mdf-grain-lock").checked;
+    const out = $("mdfnest-result");
+    const pieces = readMdfRows().filter(p => !isNaN(p.w) && !isNaN(p.h) && p.qty > 0);
+
+    if (out._canvasWrap) { out._canvasWrap.remove(); out._canvasWrap = null; }
+
+    if (isNaN(sheetLraw) || isNaN(sheetWraw) || pieces.length === 0) return neutralState(out, "Enter sheet size and at least one piece to nest");
+    if (sheetLraw <= 0 || sheetWraw <= 0) return errorState(out, "Sheet dimensions must be greater than zero.");
+    const kerf = isNaN(kerfRaw) ? 0 : kerfRaw;
+
+    let result;
+    try {
+      result = guillotineNest(pieces, sheetLraw, sheetWraw, kerf, !grainLock);
+    } catch (e) {
+      return errorState(out, e.message);
+    }
+
+    const unitLabel = settings.unit === "imperial" ? "in" : "mm";
+    const areaLabel = settings.unit === "imperial" ? "sq in" : "sq mm";
+    const goodT = settings.mdfUtilGoodPct, warnT = settings.mdfUtilWarnPct;
+    let level, title;
+    if (result.utilizationPct >= goodT) { level = "green"; title = "Efficient nesting — utilization meets target"; }
+    else if (result.utilizationPct >= warnT) { level = "yellow"; title = "Moderate offcut waste — utilization below target"; }
+    else { level = "red"; title = "High offcut waste — utilization well below target"; }
+
+    renderStatus(out, level, title, [
+      { label: "Sheets Required", value: result.sheetCount + "" },
+      { label: "Material Utilization", value: round2(result.utilizationPct).toFixed(2) + "%" },
+      { label: "Net Piece Area", value: round2(result.netPieceArea).toFixed(2) + " " + areaLabel },
+      { label: "Trim / Kerf Loss", value: round2(result.totalSheetArea - result.netPieceArea).toFixed(2) + " " + areaLabel }
+    ]);
+
+    const canvasWrap = document.createElement("div");
+    canvasWrap.className = "card rounded-xl p-5 md:p-7 mt-5";
+    canvasWrap.innerHTML = `<h3 class="text-sm font-bold text-slate-300 mb-3">Cutting Pattern (${result.sheetCount} sheet${result.sheetCount > 1 ? "s" : ""}, ${unitLabel})</h3>`;
+    const grid = document.createElement("div");
+    grid.className = "flex flex-wrap gap-4";
+    result.sheets.forEach(placements => renderNestingCanvas(sheetLraw, sheetWraw, placements, grid));
+    canvasWrap.appendChild(grid);
+    out.after(canvasWrap);
+    out._canvasWrap = canvasWrap;
+  }
+
+  // ---- RHS piece-row management ----
+  let rhsRowCounter = 0;
+  function addRhsRow(vals) {
+    vals = vals || {};
+    const id = "rhs-row-" + (rhsRowCounter++);
+    const div = document.createElement("div");
+    div.className = "rhs-piece-row grid sm:grid-cols-12 gap-2 items-center";
+    div.dataset.rowId = id;
+    div.innerHTML = `
+      <input type="text" class="piece-input rhs-f-label w-full rounded-md px-3 py-2 text-sm sm:col-span-5" placeholder="e.g. Column C1" value="${vals.label || ""}">
+      <input type="number" class="piece-input rhs-f-length w-full rounded-md px-3 py-2 text-sm sm:col-span-4" placeholder="Length" value="${vals.length || ""}">
+      <div class="flex items-center gap-1.5 sm:col-span-3">
+        <input type="number" class="piece-input rhs-f-qty w-full rounded-md px-3 py-2 text-sm" placeholder="Qty" value="${vals.qty || 1}">
+        <button type="button" class="rhs-remove-row text-slate-500 hover:text-red-400 p-1 shrink-0" aria-label="Remove piece">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
+      </div>`;
+    $("rhs-rows").appendChild(div);
+    div.querySelectorAll("input").forEach(el => el.addEventListener("input", () => { saveRhsRows(); calcRHS(); }));
+    div.querySelector(".rhs-remove-row").addEventListener("click", () => { div.remove(); saveRhsRows(); calcRHS(); });
+  }
+  $("rhs-add-row").addEventListener("click", () => { addRhsRow(); saveRhsRows(); calcRHS(); });
+
+  function readRhsRows() {
+    return Array.from(document.querySelectorAll(".rhs-piece-row")).map((row, idx) => ({
+      id: idx,
+      label: row.querySelector(".rhs-f-label").value || ("Piece " + (idx + 1)),
+      length: parseFloat(row.querySelector(".rhs-f-length").value),
+      qty: parseInt(row.querySelector(".rhs-f-qty").value, 10)
+    }));
+  }
+
+  const RHS_ROWS_KEY = "archcalc_rhs_rows_v1";
+  function saveRhsRows() {
+    const data = Array.from(document.querySelectorAll(".rhs-piece-row")).map(row => ({
+      label: row.querySelector(".rhs-f-label").value,
+      length: row.querySelector(".rhs-f-length").value,
+      qty: row.querySelector(".rhs-f-qty").value
+    }));
+    localStorage.setItem(RHS_ROWS_KEY, JSON.stringify(data));
+  }
+  function loadRhsRows() {
+    try {
+      const raw = localStorage.getItem(RHS_ROWS_KEY);
+      const data = raw ? JSON.parse(raw) : null;
+      if (data && data.length) data.forEach(addRhsRow);
+      else { addRhsRow({ label: "Column", length: 3.2, qty: 6 }); addRhsRow({ label: "Brace", length: 1.8, qty: 10 }); }
+    } catch (e) { addRhsRow(); }
+  }
+
+  function calcRHS() {
+    const stockRaw = parseFloat($("rhs-stock-length").value);
+    const kerfRaw = parseFloat($("rhs-kerf").value);
+    const out = $("rhsnest-result");
+    const pieces = readRhsRows().filter(p => !isNaN(p.length) && p.qty > 0);
+
+    if (out._barsWrap) { out._barsWrap.remove(); out._barsWrap = null; }
+
+    if (isNaN(stockRaw) || pieces.length === 0) return neutralState(out, "Enter stock length and at least one cut length");
+    if (stockRaw <= 0) return errorState(out, "Stock bar length must be greater than zero.");
+    const kerf = isNaN(kerfRaw) ? 0 : kerfRaw;
+
+    let result;
+    try {
+      result = ffdNest1D(pieces, stockRaw, kerf);
+    } catch (e) {
+      return errorState(out, e.message);
+    }
+
+    const unitLabel = settings.unit === "imperial" ? "ft" : "m";
+    const goodT = settings.rhsScrapGoodPct, warnT = settings.rhsScrapWarnPct;
+    let level, title;
+    if (result.scrapPct <= goodT) { level = "green"; title = "Efficient nesting — scrap within target"; }
+    else if (result.scrapPct <= warnT) { level = "yellow"; title = "Moderate scrap — above the efficient target"; }
+    else { level = "red"; title = "High scrap — nesting is significantly wasteful"; }
+
+    renderStatus(out, level, title, [
+      { label: "Bars Required", value: result.barCount + "" },
+      { label: "Total Scrap", value: round2(result.scrapPct).toFixed(2) + "%" },
+      { label: "Total Stock Consumed", value: round2(result.totalStock).toFixed(2) + " " + unitLabel },
+      { label: "Total Remnant", value: round2(result.totalScrap).toFixed(2) + " " + unitLabel }
+    ]);
+
+    const barsWrap = document.createElement("div");
+    barsWrap.className = "card rounded-xl p-5 md:p-7 mt-5";
+    barsWrap.innerHTML = `<h3 class="text-sm font-bold text-slate-300 mb-3">Cut Sequence (${result.barCount} bar${result.barCount > 1 ? "s" : ""}, ${unitLabel})</h3>`;
+    const list = document.createElement("div");
+    list.className = "space-y-3";
+    const palette = ["#3ecf8e", "#38bdf8", "#f59e0b", "#f472b6", "#a78bfa", "#34d399", "#fb923c", "#60a5fa"];
+    result.bars.forEach((bar, bi) => {
+      const row = document.createElement("div");
+      const barLabel = document.createElement("p");
+      barLabel.className = "text-xs font-semibold text-slate-400 mb-1.5";
+      barLabel.textContent = `Bar ${bi + 1} — ${bar.items.map(it => it.label + " (" + round2(it.length).toFixed(2) + ")").join(" + ")} | remnant ${round2(bar.remnant).toFixed(2)} ${unitLabel}`;
+      const track = document.createElement("div");
+      track.className = "flex w-full h-7 rounded-md overflow-hidden border border-white/10";
+      bar.items.forEach((it, ii) => {
+        const seg = document.createElement("div");
+        seg.style.width = ((it.length / stockRaw) * 100) + "%";
+        seg.style.background = palette[ii % palette.length];
+        seg.className = "flex items-center justify-center text-[10px] font-semibold text-black/80";
+        track.appendChild(seg);
+      });
+      if (bar.remnant > 0) {
+        const rem = document.createElement("div");
+        rem.style.width = ((bar.remnant / stockRaw) * 100) + "%";
+        rem.className = "bg-white/5";
+        track.appendChild(rem);
+      }
+      row.appendChild(barLabel);
+      row.appendChild(track);
+      list.appendChild(row);
+    });
+    barsWrap.appendChild(list);
+    out.after(barsWrap);
+    out._barsWrap = barsWrap;
+  }
+
+  // The generic listener below covers type=number inputs already; the grain-lock
+  // checkbox needs its own binding since it isn't type=number.
+  $("mdf-grain-lock").addEventListener("change", calcMDF);
+
   /* =========================================================
      8. BIND INPUT LISTENERS (real-time)
      ========================================================= */
   const calcMap = {
     far: calcFAR, coverage: calcCoverage, osr: calcOSR,
     ramp: calcRamp, stairs: calcStairs, occupant: calcOccupant,
-    wwr: calcWWR, uvalue: calcUValue
+    wwr: calcWWR, uvalue: calcUValue,
+    netgross: calcNetGross, lumen: calcLumen, sabine: calcSabine,
+    rebar: calcRebar, concrete: calcConcrete,
+    mdfnest: calcMDF, rhsnest: calcRHS
   };
 
   function recalcAll() {
@@ -1035,12 +2028,30 @@
     "set-wwr-min": "wwrMin",
     "set-wwr-max": "wwrMax",
     "set-uv-roof": "uvRoofTarget",
-    "set-uv-wall": "uvWallTarget"
+    "set-uv-wall": "uvWallTarget",
+    "set-netgross-good": "netGrossGoodPct",
+    "set-netgross-warn": "netGrossWarnPct",
+    "set-rt60-min": "rt60TargetMin",
+    "set-rt60-max": "rt60TargetMax",
+    "set-concrete-factor": "concreteDryFactor",
+    "set-sheet-length": "sheetLengthIn",
+    "set-sheet-width": "sheetWidthIn",
+    "set-mdf-kerf": "kerfMdfIn",
+    "set-mdf-util-good": "mdfUtilGoodPct",
+    "set-rhs-stock": "stockBarLengthM",
+    "set-rhs-kerf": "kerfRhsMm",
+    "set-rhs-scrap-warn": "rhsScrapWarnPct"
   };
 
   // Fields whose stored value is imperial-based length (inches) and needs conversion for display
   const LENGTH_IN_FIELDS = new Set(["set-blondel-min", "set-blondel-max", "set-riser-max", "set-tread-min", "set-exit-stair", "set-exit-level"]);
   const LENGTH_FT_FIELDS = new Set(["set-ramp-landing"]);
+  // Panel-scale fields stored in canonical INCHES, displayed as in/mm.
+  const PANEL_IN_FIELDS = new Set(["set-sheet-length", "set-sheet-width", "set-mdf-kerf"]);
+  // Panel-scale fields stored in canonical MM, displayed as in/mm (inverse direction from above).
+  const PANEL_MM_FIELDS = new Set(["set-rhs-kerf"]);
+  // Bar-scale fields stored in canonical METERS, displayed as ft/m.
+  const BAR_M_FIELDS = new Set(["set-rhs-stock"]);
 
   function populateSettingsForm() {
     Object.keys(settingsFieldMap).forEach(fieldId => {
@@ -1051,6 +2062,12 @@
         val = CONV.inToCm(val);
       } else if (LENGTH_FT_FIELDS.has(fieldId) && settings.unit === "metric") {
         val = CONV.ftToM(val);
+      } else if (PANEL_IN_FIELDS.has(fieldId) && settings.unit === "metric") {
+        val = CONV.inToMm(val);
+      } else if (PANEL_MM_FIELDS.has(fieldId) && settings.unit === "imperial") {
+        val = CONV.mmToIn(val);
+      } else if (BAR_M_FIELDS.has(fieldId) && settings.unit === "imperial") {
+        val = CONV.mToFt(val);
       }
       el.value = round2(val);
     });
@@ -1064,6 +2081,14 @@
     if (!$("wwr-max").value) $("wwr-max").value = settings.wwrMax;
     if (!$("uv-target-roof").value) $("uv-target-roof").value = settings.uvRoofTarget;
     if (!$("uv-target-wall").value) $("uv-target-wall").value = settings.uvWallTarget;
+    if (!$("ng-good").value) $("ng-good").value = settings.netGrossGoodPct;
+    if (!$("ng-warn").value) $("ng-warn").value = settings.netGrossWarnPct;
+    if (!$("cc-factor").value) $("cc-factor").value = settings.concreteDryFactor;
+    if (!$("mdf-sheet-l").value) $("mdf-sheet-l").value = round2(settings.unit === "metric" ? CONV.inToMm(settings.sheetLengthIn) : settings.sheetLengthIn);
+    if (!$("mdf-sheet-w").value) $("mdf-sheet-w").value = round2(settings.unit === "metric" ? CONV.inToMm(settings.sheetWidthIn) : settings.sheetWidthIn);
+    if (!$("mdf-kerf").value) $("mdf-kerf").value = round2(settings.unit === "metric" ? CONV.inToMm(settings.kerfMdfIn) : settings.kerfMdfIn);
+    if (!$("rhs-stock-length").value) $("rhs-stock-length").value = round2(settings.unit === "imperial" ? CONV.mToFt(settings.stockBarLengthM) : settings.stockBarLengthM);
+    if (!$("rhs-kerf").value) $("rhs-kerf").value = round2(settings.unit === "imperial" ? CONV.mmToIn(settings.kerfRhsMm) : settings.kerfRhsMm);
   }
 
   document.querySelectorAll("#settingsDrawer input[type=number]").forEach(el => {
@@ -1076,6 +2101,12 @@
         val = CONV.cmToIn(val);
       } else if (LENGTH_FT_FIELDS.has(el.id) && settings.unit === "metric") {
         val = CONV.mToFt(val);
+      } else if (PANEL_IN_FIELDS.has(el.id) && settings.unit === "metric") {
+        val = CONV.mmToIn(val);
+      } else if (PANEL_MM_FIELDS.has(el.id) && settings.unit === "imperial") {
+        val = CONV.inToMm(val);
+      } else if (BAR_M_FIELDS.has(el.id) && settings.unit === "imperial") {
+        val = CONV.ftToM(val);
       }
       settings[key] = val;
       saveSettings();
@@ -1098,10 +2129,14 @@
      ========================================================= */
   const FORM_STORAGE_KEY = "archcalc_form_inputs_v1";
 
+  // Piece-list rows (MDF/RHS) persist via their own dedicated array-based storage
+  // (saveMdfRows/saveRhsRows) since their inputs are dynamically created/destroyed.
+  const AUTOPERSIST_SELECTOR = "section.view input:not(.piece-input), section.view select";
+
   function saveFormInputs() {
     const data = {};
-    document.querySelectorAll("section.view input, section.view select").forEach(el => {
-      data[el.id] = el.value;
+    document.querySelectorAll(AUTOPERSIST_SELECTOR).forEach(el => {
+      data[el.id] = el.type === "checkbox" ? el.checked : el.value;
     });
     localStorage.setItem(FORM_STORAGE_KEY, JSON.stringify(data));
   }
@@ -1113,13 +2148,15 @@
       const data = JSON.parse(raw);
       Object.keys(data).forEach(id => {
         const el = $(id);
-        if (el) el.value = data[id];
+        if (!el) return;
+        if (el.type === "checkbox") el.checked = !!data[id];
+        else el.value = data[id];
       });
       if ($("occ-factor").value === "custom") $("occ-custom-wrap").classList.remove("hidden");
     } catch (e) { /* ignore corrupt storage */ }
   }
 
-  document.querySelectorAll("section.view input, section.view select").forEach(el => {
+  document.querySelectorAll(AUTOPERSIST_SELECTOR).forEach(el => {
     el.addEventListener("input", saveFormInputs);
     el.addEventListener("change", saveFormInputs);
   });
@@ -1131,6 +2168,8 @@
     refreshUnitButtons();
     populateSettingsForm();
     loadFormInputs();
+    loadMdfRows();
+    loadRhsRows();
     recalcAll();
     setActiveView("far");
   }
